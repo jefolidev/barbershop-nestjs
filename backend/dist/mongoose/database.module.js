@@ -6,25 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.MongooseModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const env_1 = require("./env");
-const users_module_1 = require("./modules/users/users.module");
-const database_module_1 = require("./mongoose/database.module");
-let AppModule = class AppModule {
+const database_service_1 = require("./database.service");
+let MongooseModule = class MongooseModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.MongooseModule = MongooseModule;
+exports.MongooseModule = MongooseModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            database_module_1.MongooseModule,
-            users_module_1.UsersModule,
-            config_1.ConfigModule.forRoot({
-                validate: (env) => env_1.envSchema.parse(env),
-                isGlobal: true,
-            }),
-        ],
+        providers: [...database_service_1.databaseProviders],
+        exports: [...database_service_1.databaseProviders],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], MongooseModule);
+//# sourceMappingURL=database.module.js.map
