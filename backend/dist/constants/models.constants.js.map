@@ -1,1 +1,1 @@
-{"version":3,"file":"models.constants.js","sourceRoot":"","sources":["../../src/constants/models.constants.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG;IAC1B,IAAI,EAAE,YAAY;CACT,CAAA"}
+{"version":3,"file":"models.constants.js","sourceRoot":"","sources":["../../src/constants/models.constants.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG;IAC1B,IAAI,EAAE,YAAY;IAClB,OAAO,EAAE,eAAe;CACf,CAAA"}

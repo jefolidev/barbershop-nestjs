@@ -18,8 +18,8 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            database_module_1.MongooseModule,
             users_module_1.UsersModule,
+            database_module_1.MongooseModule,
             config_1.ConfigModule.forRoot({
                 validate: (env) => env_1.envSchema.parse(env),
                 isGlobal: true,

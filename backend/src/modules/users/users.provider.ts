@@ -7,8 +7,7 @@ import { MongooseUserSchema } from 'src/schemas/user.schema'
 export const userProvider: Provider[] = [
 	{
 		provide: ModelTokens.USER,
-		useFactory: (connection: Connection) =>
-			connection.model('user', MongooseUserSchema),
+		useFactory: (connection: Connection) => connection.model('user', MongooseUserSchema),
 		inject: [DatabaseTokens.CONNECTION],
 	},
 ]

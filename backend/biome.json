@@ -33,6 +33,7 @@
 			"unsafeParameterDecoratorsEnabled": true
 		},
 		"formatter": {
+			"lineWidth": 100,
 			"quoteStyle": "single",
 			"semicolons": "asNeeded",
 			"trailingCommas": "all",

@@ -1,8 +1,7 @@
 import { isValidPassword } from 'src/utils/password-parse'
 import { z } from 'zod'
 
-export const userProfileSchema = z.object({
-	userId: z.string().uuid(),
+export const accountSchema = z.object({
 	cpf: z
 		.string()
 		.min(11, {
@@ -30,3 +29,5 @@ export const userProfileSchema = z.object({
 		!isValidPassword(value, ctx)
 	}),
 })
+
+export type AccountDTO = z.infer<typeof accountSchema>

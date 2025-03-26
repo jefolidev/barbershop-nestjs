@@ -6,8 +6,8 @@ import { MongooseModule } from './mongoose/database.module'
 
 @Module({
 	imports: [
-		MongooseModule,
 		UsersModule,
+		MongooseModule,
 
 		ConfigModule.forRoot({
 			validate: (env) => envSchema.parse(env),

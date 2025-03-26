@@ -1,4 +1,4 @@
-import type { z } from 'zod'
+import { z } from 'zod'
 
 export function isValidPassword(value: string, ctx: z.RefinementCtx): boolean {
 	const hasLetter = /[a-zA-Z]/.test(value)

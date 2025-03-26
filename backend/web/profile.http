@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:3000
+
+# @name get_profiles
+GET {{baseUrl}}/profiles
+Content-Type: application/json
+
+###
+
+# @name create_profiles
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+    
+}

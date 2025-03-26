@@ -1,9 +1,8 @@
 import { Schema } from 'mongoose'
 import { randomUUID } from 'node:crypto'
 
-export interface IUserProfile {
+export interface IAccount {
 	readonly _id: string
-	readonly _userId: string
 	readonly cpf: string
 	readonly email: string
 	readonly phone: string
@@ -12,10 +11,9 @@ export interface IUserProfile {
 
 const { UUID } = Schema.Types
 
-export const MongooseUserProfileSchema = new Schema(
+export const MongooseAccountSchema = new Schema(
 	{
 		_id: { type: UUID, default: () => randomUUID() },
-		_userId: { type: UUID, ref: 'user' },
 		cpf: { type: String, unique: true },
 		email: { type: String, unique: true },
 		phone: { type: String, unique: true },

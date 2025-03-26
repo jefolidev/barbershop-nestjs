@@ -14,15 +14,20 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("mongoose");
 const models_constants_1 = require("../../constants/models.constants");
 let UsersService = class UsersService {
     userModel;
     constructor(userModel) {
         this.userModel = userModel;
     }
-    async create(createUserDTO) {
-        const newUser = new this.userModel(createUserDTO);
-        return await newUser.save();
+    async create(userData, accountId) {
+        const newUser = {
+            ...userData,
+            _accountId: accountId,
+        };
+        const query = new this.userModel(newUser);
+        return await query.save();
     }
     async findAll() {
         return await this.userModel.find().exec();
@@ -32,6 +37,6 @@ exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(models_constants_1.ModelTokens.USER)),
-    __metadata("design:paramtypes", [Function])
+    __metadata("design:paramtypes", [mongoose_1.Model])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

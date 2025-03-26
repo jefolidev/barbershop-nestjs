@@ -1,5 +1,5 @@
 import { type PipeTransform } from '@nestjs/common';
-import { type ZodSchema } from 'zod';
+import { ZodSchema } from 'zod';
 export declare class ZodValidationPipe implements PipeTransform {
     private schema;
     constructor(schema: ZodSchema);

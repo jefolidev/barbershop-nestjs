@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto'
 
 export interface IUser extends Document {
 	readonly _id: string
+	readonly _accountId: string
 	readonly name: string
 	readonly birthDate: Date
 	readonly gender: 'man' | 'woman' | 'other'

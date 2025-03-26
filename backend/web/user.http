@@ -13,5 +13,9 @@ Content-Type: application/json
 {
     "name": "Jeferson Franco de Oliveira",
     "birthDate": "2024/12/25",
-    "gender": "other"
+    "gender": "other",
+    "cpf": "07609254371",
+    "email": "jeferson@email.com",
+    "phone": "85987146194",
+    "password": "Jeferson279"
 }

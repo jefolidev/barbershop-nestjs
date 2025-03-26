@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
-import type { Model } from 'mongoose'
+import { Model } from 'mongoose'
 import { ModelTokens } from 'src/constants/models.constants'
-import type { UserDTO } from 'src/modules/users/dto/create-user.dto'
-import type { IUser } from 'src/schemas/user.schema'
+import { UserDTO } from 'src/modules/users/dto/create-user.dto'
+import { IUser } from 'src/schemas/user.schema'
 
 @Injectable()
 export class UsersService {
@@ -11,9 +11,14 @@ export class UsersService {
 		private userModel: Model<IUser>,
 	) {}
 
-	async create(createUserDTO: UserDTO) {
-		const newUser = new this.userModel(createUserDTO)
-		return await newUser.save()
+	async create(userData: UserDTO, accountId: string) {
+		const newUser: UserDTO = {
+			...userData,
+			_accountId: accountId,
+		}
+
+		const query = new this.userModel(newUser)
+		return await query.save()
 	}
 
 	async findAll(): Promise<IUser[]> {
