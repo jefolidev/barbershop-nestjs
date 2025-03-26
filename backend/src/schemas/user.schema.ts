@@ -15,16 +15,15 @@ export interface IUser extends Document {
 export const MongooseUserSchema = new Schema(
 	{
 		_id: { type: Schema.Types.UUID, default: () => randomUUID() },
-		name: { type: String, required: true, unique: false },
-		birthDate: { type: Date, required: true, unique: false },
+		name: { type: String, required: true },
+		birthDate: { type: Date, required: true },
 		gender: {
 			type: String,
 			enum: ['man', 'woman', 'other'],
 			required: true,
-			unique: false,
 		},
-		profilePicture: { type: String, required: false, unique: false },
-		createdAt: { type: Date, default: () => new Date(), unique: false },
+		profilePicture: { type: String, required: false },
+		createdAt: { type: Date, default: () => new Date() },
 	},
 	{ versionKey: false },
 )
