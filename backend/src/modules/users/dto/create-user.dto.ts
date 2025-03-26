@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const userSchema = z.object({
 	name: z.string(),
-	birthDate: z.string().transform((string) => new Date(string)),
+	birthDate: z.coerce.date(),
 	gender: z.enum(['man', 'woman', 'other']),
 	profilePicture: z.string().startsWith('data:image/').optional(),
 })

@@ -4,7 +4,7 @@ exports.userSchema = void 0;
 const zod_1 = require("zod");
 exports.userSchema = zod_1.z.object({
     name: zod_1.z.string(),
-    birthDate: zod_1.z.string().transform((string) => new Date(string)),
+    birthDate: zod_1.z.coerce.date(),
     gender: zod_1.z.enum(['man', 'woman', 'other']),
     profilePicture: zod_1.z.string().startsWith('data:image/').optional(),
 });

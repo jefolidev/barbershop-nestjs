@@ -1,7 +1,7 @@
 import { z } from 'zod';
 export declare const userSchema: z.ZodObject<{
     name: z.ZodString;
-    birthDate: z.ZodEffects<z.ZodString, Date, string>;
+    birthDate: z.ZodDate;
     gender: z.ZodEnum<["man", "woman", "other"]>;
     profilePicture: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
@@ -11,7 +11,7 @@ export declare const userSchema: z.ZodObject<{
     profilePicture?: string | undefined;
 }, {
     name: string;
-    birthDate: string;
+    birthDate: Date;
     gender: "man" | "woman" | "other";
     profilePicture?: string | undefined;
 }>;

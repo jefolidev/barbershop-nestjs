@@ -11,7 +11,7 @@ POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-    "name": "Jeferson Franco",
-    "birthDate": "2025-03-25T16:49:53.498Z",
-    "gender": "man",
+    "name": "Jeferson Franco de Oliveira",
+    "birthDate": "2024/12/25",
+    "gender": "other"
 }

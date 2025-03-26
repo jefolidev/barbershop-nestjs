@@ -5,7 +5,7 @@ export declare class UsersService {
     private userModel;
     constructor(userModel: Model<IUser>);
     create(createUserDTO: UserDTO): Promise<import("mongoose").Document<unknown, {}, IUser> & IUser & Required<{
-        _id: unknown;
+        _id: string;
     }> & {
         __v: number;
     }>;

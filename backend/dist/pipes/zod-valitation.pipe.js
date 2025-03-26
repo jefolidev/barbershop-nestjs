@@ -11,7 +11,7 @@ class ZodValidationPipe {
     }
     transform(value) {
         try {
-            this.schema.parse(value);
+            return this.schema.parse(value);
         }
         catch (error) {
             if (error instanceof zod_1.ZodError) {
@@ -23,7 +23,6 @@ class ZodValidationPipe {
             }
             throw new common_1.BadGatewayException('Validation failed');
         }
-        return value;
     }
 }
 exports.ZodValidationPipe = ZodValidationPipe;
