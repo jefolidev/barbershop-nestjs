@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongooseUserSchema = void 0;
 const mongoose_1 = require("mongoose");
-const node_crypto_1 = require("node:crypto");
 exports.MongooseUserSchema = new mongoose_1.Schema({
-    id: { type: 'UUID', default: () => (0, node_crypto_1.randomUUID)(), unique: true },
-    name: { type: String },
-    age: Number,
+    name: { type: String, required: true },
+    birthDate: { type: Date, required: true },
+    gender: { type: String, enum: ['man', 'woman', 'other'], required: true },
+    profilePicture: { type: String, required: false },
     createdAt: { type: Date, default: () => new Date() },
 });
 //# sourceMappingURL=user.schema.js.map

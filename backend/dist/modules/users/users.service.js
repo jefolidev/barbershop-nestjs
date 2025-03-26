@@ -22,10 +22,10 @@ let UsersService = class UsersService {
     }
     async create(createUserDTO) {
         const newUser = new this.userModel(createUserDTO);
-        return newUser.save();
+        return await newUser.save();
     }
     async findAll() {
-        return this.userModel.find().exec();
+        return await this.userModel.find().exec();
     }
 };
 exports.UsersService = UsersService;

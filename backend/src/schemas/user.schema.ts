@@ -1,18 +1,20 @@
 import { Schema } from 'mongoose'
-import { randomUUID } from 'node:crypto'
 
-import type { Document } from 'mongoose'
+import { Document } from 'mongoose'
 
 export interface IUser extends Document {
 	readonly id: string
 	readonly name: string
-	readonly age: number
+	readonly birthDate: Date
+	readonly gender: 'man' | 'woman' | 'other'
+	readonly profilePicture?: string | undefined
 	readonly createdAt: Date
 }
 
 export const MongooseUserSchema = new Schema({
-	id: { type: 'UUID', default: () => randomUUID(), unique: true },
-	name: { type: String },
-	age: Number,
+	name: { type: String, required: true },
+	birthDate: { type: Date, required: true },
+	gender: { type: String, enum: ['man', 'woman', 'other'], required: true },
+	profilePicture: { type: String, required: false },
 	createdAt: { type: Date, default: () => new Date() },
 })

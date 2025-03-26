@@ -9,7 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const database_module_1 = require("../../mongoose/database.module");
-const users_controller_1 = require("./users.controller");
+const create_user_controller_1 = require("./controllers/create-user.controller");
+const get_users_controller_1 = require("./controllers/get-users.controller");
 const users_provider_1 = require("./users.provider");
 const users_service_1 = require("./users.service");
 let UsersModule = class UsersModule {
@@ -18,7 +19,7 @@ exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.MongooseModule],
-        controllers: [users_controller_1.UsersController],
+        controllers: [create_user_controller_1.CreateUserController, get_users_controller_1.GetAllUsersController],
         providers: [users_service_1.UsersService, ...users_provider_1.userProvider],
     })
 ], UsersModule);

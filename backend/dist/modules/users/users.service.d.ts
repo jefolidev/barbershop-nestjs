@@ -1,5 +1,5 @@
 import type { Model } from 'mongoose';
-import type { UserDTO } from 'src/dto/users/create-user.dto';
+import type { UserDTO } from 'src/modules/users/dto/create-user.dto';
 import type { IUser } from 'src/schemas/user.schema';
 export declare class UsersService {
     private userModel;
