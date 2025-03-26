@@ -24,17 +24,20 @@ export class CreateUserController {
 		const accountData: AccountDTO = { cpf, email, phone, password }
 		const userData: UserDTO = { name, birthDate, gender, profilePicture }
 
-		const accountId = await this.accountService.findAccountIdByCPF(cpf)
-		console.log(accountId)
+		let accountId = await this.accountService.findAccountIdByCPF(cpf)
+		console.log('ID RESGATADO POR FIND ACCOUNT ID BYCPF :', accountId)
+		// console.log(accountId)
 
 		if (!accountId) {
 			const newAccount = await this.accountService.create(accountData)
+			accountId = newAccount._id
+			console.log('CONTA RESGATADA :', newAccount)
 		}
 
 		if (!accountId) {
 			throw new Error('Failed to create o retrive account ID')
 		}
 
-		await this.userService.create(userData, '479e55ef-42af-4a3b-b049-ddb51fbb8619')
+		await this.userService.create(userData, accountId)
 	}
 }

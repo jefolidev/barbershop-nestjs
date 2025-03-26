@@ -16,6 +16,7 @@ export interface IUser extends Document {
 export const MongooseUserSchema = new Schema(
 	{
 		_id: { type: Schema.Types.UUID, default: () => randomUUID() },
+		_accountId: { type: Schema.Types.UUID },
 		name: { type: String, required: true },
 		birthDate: { type: Date, required: true },
 		gender: {

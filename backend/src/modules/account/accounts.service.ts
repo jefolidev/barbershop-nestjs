@@ -25,8 +25,8 @@ export class AccountService {
 	}
 
 	async findAccountIdByCPF(userCpf: string) {
-		const query = this.accountModel.where({ cpf: userCpf })
+		const account = await this.accountModel.where({ cpf: userCpf }).select('_id')
 
-		return await query.findOne()
+		return account.toString()
 	}
 }
