@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common'
+import { Body, ConflictException, Controller, Post, UsePipes } from '@nestjs/common'
 import { hash } from 'bcrypt'
 import { AccountService } from 'src/modules/account/accounts.service'
 import { AccountDTO } from 'src/modules/account/dto/create-account.dto'
@@ -13,8 +13,8 @@ import { UsersService } from '../users.service'
 @Controller('users')
 export class CreateUserController {
 	constructor(
-		private userService: UsersService,
-		private accountService: AccountService,
+		private users: UsersService,
+		private accounts: AccountService,
 	) {}
 
 	@Post()
@@ -25,11 +25,18 @@ export class CreateUserController {
 		const accountData: AccountDTO = { cpf, email, phone, password }
 		const userData: UserDTO = { name, birthDate, gender, profilePicture }
 
+		const existingUser = await this.accounts.findIndexesCredentials(cpf, email, phone)
+		console.log('Existe um usuário com as credenciais: ', existingUser)
+
 		const hashedPassword = await hash(accountData.password, 10)
-		let accountId = await this.accountService.findAccountIdByCPF(cpf)
+		let accountId = await this.accounts.findAccountIdByCPF(cpf)
+
+		if (existingUser) {
+			throw new ConflictException('Already exist a user whit this credentials, try again.')
+		}
 
 		if (!accountId) {
-			const newAccount = await this.accountService.create({
+			const newAccount = await this.accounts.create({
 				...accountData,
 				password: hashedPassword,
 			})
@@ -40,6 +47,6 @@ export class CreateUserController {
 			throw new Error('Failed to create o retrive account ID')
 		}
 
-		await this.userService.create(userData, accountId)
+		await this.users.create(userData, accountId)
 	}
 }

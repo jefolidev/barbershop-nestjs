@@ -9,11 +9,9 @@ export interface IAccount {
 	readonly password: string
 }
 
-const { UUID } = Schema.Types
-
 export const MongooseAccountSchema = new Schema(
 	{
-		_id: { type: UUID, default: () => randomUUID() },
+		_id: { type: String, default: () => randomUUID() },
 		cpf: { type: String, unique: true },
 		email: { type: String, unique: true },
 		phone: { type: String, unique: true },

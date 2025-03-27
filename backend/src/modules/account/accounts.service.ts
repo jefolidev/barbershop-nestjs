@@ -29,4 +29,12 @@ export class AccountService {
 
 		return account.toString()
 	}
+
+	async findIndexesCredentials(cpf: string, email: string, phone: string) {
+		const query = await this.accountModel.findOne({
+			$or: [{ cpf }, { email }, { phone }],
+		})
+
+		return query
+	}
 }
