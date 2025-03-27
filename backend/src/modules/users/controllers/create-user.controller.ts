@@ -1,4 +1,5 @@
 import { Body, Controller, Post, UsePipes } from '@nestjs/common'
+import { hash } from 'bcrypt'
 import { AccountService } from 'src/modules/account/accounts.service'
 import { AccountDTO } from 'src/modules/account/dto/create-account.dto'
 import { ZodValidationPipe } from 'src/pipes/zod-valitation.pipe'
@@ -24,14 +25,15 @@ export class CreateUserController {
 		const accountData: AccountDTO = { cpf, email, phone, password }
 		const userData: UserDTO = { name, birthDate, gender, profilePicture }
 
+		const hashedPassword = await hash(accountData.password, 10)
 		let accountId = await this.accountService.findAccountIdByCPF(cpf)
-		console.log('ID RESGATADO POR FIND ACCOUNT ID BYCPF :', accountId)
-		// console.log(accountId)
 
 		if (!accountId) {
-			const newAccount = await this.accountService.create(accountData)
+			const newAccount = await this.accountService.create({
+				...accountData,
+				password: hashedPassword,
+			})
 			accountId = newAccount._id
-			console.log('CONTA RESGATADA :', newAccount)
 		}
 
 		if (!accountId) {
