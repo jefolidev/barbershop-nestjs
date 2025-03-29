@@ -1,10 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import { z } from 'zod'
 import { AuthService } from '../auth.service'
 
-interface CredentialsSignInRequest {
-	login: string
-	password: string
-}
+const credentialSignBodySchema = z.object({
+	login: z.string(),
+	password: z.string(),
+})
+
+type CredentialsSignBodySchema = z.infer<typeof credentialSignBodySchema>
 
 @Controller('auth')
 export class AuthController {
@@ -12,8 +15,11 @@ export class AuthController {
 		console.log('AuthController inicializado!')
 	}
 
+	@HttpCode(HttpStatus.OK)
 	@Post('/login')
-	async signIn(@Body() { login, password }: CredentialsSignInRequest) {
+	async signIn(@Body() body: CredentialsSignBodySchema) {
+		const { login, password } = body
+
 		return await this.auth.signIn({ cpf: login, email: login, phone: login }, password)
 	}
 }

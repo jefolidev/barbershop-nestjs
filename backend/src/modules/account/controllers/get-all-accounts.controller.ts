@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common'
-import { IAccount } from 'src/schemas/profile.schema'
+import { Account } from 'src/schemas/account.schema'
 import { AccountService } from '../accounts.service'
 
 @Controller()
@@ -7,7 +7,7 @@ export class GetAllAccountsController {
 	constructor(private accountService: AccountService) {}
 
 	@Get()
-	async findAll(): Promise<IAccount[]> {
+	async findAll(): Promise<Account[]> {
 		return await this.accountService.findAll()
 	}
 }

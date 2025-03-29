@@ -24,7 +24,7 @@ export class AuthService {
 			)
 		}
 
-		const token = this.jwt.sign({
+		const JWTToken = this.jwt.sign({
 			sub: accounts?._id,
 		})
 
@@ -34,6 +34,6 @@ export class AuthService {
 			throw new UnauthorizedException("The credentials don't match, try again.")
 		}
 
-		return { token }
+		return { auth_token: JWTToken }
 	}
 }

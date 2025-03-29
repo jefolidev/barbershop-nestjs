@@ -1,24 +1,29 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { MongooseModule } from '@nestjs/mongoose'
 import { AuthModule } from './auth/modules/auth.module'
-import { envSchema } from './env'
+import { Env, envSchema } from './env'
+import { AccountModule } from './modules/account/accounts.module'
 import { UsersModule } from './modules/users/users.module'
-import { MongooseModule } from './mongoose/database.module'
 
 @Module({
 	imports: [
 		UsersModule,
+		AccountModule,
 		AuthModule,
-		MongooseModule,
 
 		ConfigModule.forRoot({
 			validate: (env) => envSchema.parse(env),
 			isGlobal: true,
 		}),
+
+		MongooseModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: (config: ConfigService<Env, true>) => ({
+				uri: config.get('DATABASE_URL'),
+			}),
+		}),
 	],
 })
-export class AppModule {
-	constructor() {
-		console.log('AUTH MODULE SENDO CARREGADO!!!!')
-	}
-}
+export class AppModule {}

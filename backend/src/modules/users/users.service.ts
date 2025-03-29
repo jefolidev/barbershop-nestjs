@@ -1,27 +1,28 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { ModelTokens } from 'src/constants/models.constants'
 import { UserDTO } from 'src/modules/users/dto/create-user.dto'
-import { IUser } from 'src/schemas/user.schema'
+import { User } from 'src/schemas/user.schema'
 
 @Injectable()
 export class UsersService {
 	constructor(
-		@Inject(ModelTokens.USER)
-		private userModel: Model<IUser>,
+		@InjectModel(User.name)
+		private userModel: Model<User>,
 	) {}
 
 	async create(userData: UserDTO, accountId: string) {
-		const newUser: UserDTO = {
+		const user = new this.userModel({
 			...userData,
 			_accountId: accountId,
-		}
+		})
 
-		const query = new this.userModel(newUser)
-		return await query.save()
+		await user.save()
+
+		return user
 	}
 
-	async findAll(): Promise<IUser[]> {
+	async findAll(): Promise<User[]> {
 		return await this.userModel.find().exec()
 	}
 }

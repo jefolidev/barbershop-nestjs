@@ -26,9 +26,9 @@ export class CreateUserController {
 		const userData: UserDTO = { name, birthDate, gender, profilePicture }
 
 		const existingUser = await this.accounts.findIndexesCredentials(cpf, email, phone)
-		console.log('Existe um usuário com as credenciais: ', existingUser)
 
 		const hashedPassword = await hash(accountData.password, 10)
+
 		let accountId = await this.accounts.findAccountIdByCPF(cpf)
 
 		if (existingUser) {
@@ -40,6 +40,7 @@ export class CreateUserController {
 				...accountData,
 				password: hashedPassword,
 			})
+
 			accountId = newAccount._id
 		}
 

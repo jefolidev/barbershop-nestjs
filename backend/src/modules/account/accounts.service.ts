@@ -1,36 +1,36 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { ModelTokens } from 'src/constants/models.constants'
-import { IAccount } from 'src/schemas/profile.schema'
+import { Account } from 'src/schemas/account.schema'
 import { AccountDTO } from './dto/create-account.dto'
 
 @Injectable()
 export class AccountService {
 	constructor(
-		@Inject(ModelTokens.ACCOUNT)
-		private accountModel: Model<IAccount>,
+		@InjectModel(Account.name)
+		private accountModel: Model<Account>,
 	) {}
 
 	async create(accountData: AccountDTO) {
-		const newAccount: AccountDTO = {
-			...accountData,
-		}
+		const newAccount = new this.accountModel(accountData)
 
-		const query = new this.accountModel(newAccount)
-		return await query.save()
+		await newAccount.save()
+		return newAccount
 	}
 
-	async findAll(): Promise<IAccount[]> {
+	async findAll(): Promise<Account[]> {
 		return await this.accountModel.find().exec()
 	}
 
 	async findAccountIdByCPF(userCpf: string) {
-		const account = await this.accountModel.where({ cpf: userCpf }).select('_id')
+		// console.log('USER CPF PASSADO PARA A REQUISICAO: ', userCpf)
+		const account = await this.accountModel.findOne({ cpf: userCpf }).select('_id')
+		// console.log('ACCOUNT ACHADO PROCURANDO ID POR CPF:', account)
 
-		return account.toString()
+		return account?._id
 	}
 
-	async findAccountByCPF(userCpf: string): Promise<IAccount> {
+	async findAccountByCPF(userCpf: string): Promise<Account> {
 		const account = await this.accountModel.findOne({ cpf: userCpf })
 
 		if (!account) {
@@ -40,7 +40,7 @@ export class AccountService {
 		return account
 	}
 
-	async findAccountByEmail(userEmail: string): Promise<IAccount> {
+	async findAccountByEmail(userEmail: string): Promise<Account> {
 		const account = await this.accountModel.findOne({ email: userEmail })
 
 		if (!account) {
@@ -50,7 +50,7 @@ export class AccountService {
 		return account
 	}
 
-	async findAccountByPhone(userPhone: string): Promise<IAccount> {
+	async findAccountByPhone(userPhone: string): Promise<Account> {
 		const account = await this.accountModel.findOne({ phone: userPhone })
 
 		if (!account) {

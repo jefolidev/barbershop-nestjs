@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common'
-import { IUser } from 'src/schemas/user.schema'
+import { User } from 'src/schemas/user.schema'
 import { UsersService } from '../users.service'
 
 @Controller('users')
@@ -7,7 +7,7 @@ export class GetAllUsersController {
 	constructor(private usersService: UsersService) {}
 
 	@Get()
-	getUsers(): Promise<IUser[]> {
+	getUsers(): Promise<User[]> {
 		return this.usersService.findAll()
 	}
 }

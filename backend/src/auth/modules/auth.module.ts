@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { AccountModule } from 'src/modules/account/accounts.module'
-import { MongooseModule } from 'src/mongoose/database.module'
 import { AuthService } from './auth.service'
 
 import { ConfigService } from '@nestjs/config'
@@ -24,15 +23,10 @@ import { AuthController } from './controllers/auth.controller'
 				}
 			},
 		}),
+
 		PassportModule,
-		MongooseModule,
 	],
 	controllers: [AuthController],
 	providers: [AuthService],
-	exports: [AuthService],
 })
-export class AuthModule {
-	constructor() {
-		console.log('AUTH MODULE SENDO CARREGADO!!!!')
-	}
-}
+export class AuthModule {}
