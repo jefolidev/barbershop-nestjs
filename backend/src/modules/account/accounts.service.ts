@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { Model } from 'mongoose'
 import { ModelTokens } from 'src/constants/models.constants'
 import { IAccount } from 'src/schemas/profile.schema'
@@ -28,6 +28,36 @@ export class AccountService {
 		const account = await this.accountModel.where({ cpf: userCpf }).select('_id')
 
 		return account.toString()
+	}
+
+	async findAccountByCPF(userCpf: string): Promise<IAccount> {
+		const account = await this.accountModel.findOne({ cpf: userCpf })
+
+		if (!account) {
+			throw new NotFoundException('User account not finded, please check if is a registered user!')
+		}
+
+		return account
+	}
+
+	async findAccountByEmail(userEmail: string): Promise<IAccount> {
+		const account = await this.accountModel.findOne({ email: userEmail })
+
+		if (!account) {
+			throw new NotFoundException('User account not finded, please check if is a registered user!')
+		}
+
+		return account
+	}
+
+	async findAccountByPhone(userPhone: string): Promise<IAccount> {
+		const account = await this.accountModel.findOne({ phone: userPhone })
+
+		if (!account) {
+			throw new NotFoundException('User account not finded, please check if is a registered user!')
+		}
+
+		return account
 	}
 
 	async findIndexesCredentials(cpf: string, email: string, phone: string) {
