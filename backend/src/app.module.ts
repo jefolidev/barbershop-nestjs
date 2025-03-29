@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { AuthModule } from './auth/modules/auth.module'
 import { envSchema } from './env'
 import { UsersModule } from './modules/users/users.module'
 import { MongooseModule } from './mongoose/database.module'
@@ -7,6 +8,7 @@ import { MongooseModule } from './mongoose/database.module'
 @Module({
 	imports: [
 		UsersModule,
+		AuthModule,
 		MongooseModule,
 
 		ConfigModule.forRoot({
@@ -15,4 +17,8 @@ import { MongooseModule } from './mongoose/database.module'
 		}),
 	],
 })
-export class AppModule {}
+export class AppModule {
+	constructor() {
+		console.log('AUTH MODULE SENDO CARREGADO!!!!')
+	}
+}

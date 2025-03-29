@@ -8,9 +8,7 @@ export const databaseProviders: Provider[] = [
 	{
 		provide: DatabaseTokens.CONNECTION,
 		inject: [ConfigService],
-		useFactory: async (
-			configService: ConfigService,
-		): Promise<typeof mongoose> => {
+		useFactory: async (configService: ConfigService): Promise<typeof mongoose> => {
 			const databaseURL = configService.get<string>('DATABASE_URL')
 
 			if (!databaseURL) throw new Error('DATABASE_URL não está definida.')
