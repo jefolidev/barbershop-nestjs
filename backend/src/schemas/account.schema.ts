@@ -44,3 +44,4 @@ export class Account {
 }
 
 export const MongoAccountSchema = SchemaFactory.createForClass(Account)
+

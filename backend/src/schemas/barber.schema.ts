@@ -9,6 +9,9 @@ export class Barber {
 	_id: string
 
 	@Prop({ required: true })
+	_accountId: string
+
+	@Prop({ required: true })
 	name: string
 
 	@Prop({ required: true })
@@ -24,12 +27,7 @@ export class Barber {
 	profilePicture: string
 
 	@Prop({ required: true })
-	workSchedule: {
-		[day: string]: {
-			start: string
-			end: string
-		}
-	}
+	workSchedule: { [day: string]: { start: string; end: string } }
 
 	@Prop({ default: () => new Date() })
 	createdAt: Date

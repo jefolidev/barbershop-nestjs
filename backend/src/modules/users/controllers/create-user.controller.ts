@@ -27,8 +27,6 @@ export class CreateUserController {
 
 		const existingUser = await this.accounts.findIndexesCredentials(cpf, email, phone)
 
-		console.log('USUARIOS EXSITENTES ', existingUser)
-
 		const hashedPassword = await hash(accountData.password, 10)
 
 		let accountId = await this.accounts.findAccountIdByCPF(cpf)

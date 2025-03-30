@@ -4,7 +4,7 @@ import { Account, MongoAccountSchema } from 'src/schemas/account.schema'
 import { AccountService } from './accounts.service'
 import { CreateAccountController } from './controllers/create-account.controller'
 import { GetAccountIdController } from './controllers/get-account-id-by-cpf.controller'
-import { GetAllAccountsController } from './controllers/get-all-accounts.controller'
+import { GetAllAccountsController } from './controllers/get-accounts.controller'
 
 @Module({
 	imports: [
