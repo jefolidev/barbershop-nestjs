@@ -6,6 +6,7 @@ export const userSchema = z.object({
 	name: z.string(),
 	birthDate: z.coerce.date(),
 	gender: z.enum(['man', 'woman', 'other']),
+	role: z.enum(['user', 'barber']).default('user'),
 	profilePicture: z.string().startsWith('data:image/').optional(),
 })
 

@@ -30,7 +30,7 @@ import { Document } from 'mongoose'
 
 export type IUser = User & Document
 
-@Schema()
+@Schema({ versionKey: false })
 export class User {
 	@Prop({ default: () => crypto.randomUUID() })
 	_id: string
@@ -43,6 +43,9 @@ export class User {
 
 	@Prop({ required: true })
 	birthDate: Date
+
+	@Prop({ required: true })
+	role: 'user' | 'barber'
 
 	@Prop({ required: true })
 	gender: 'man' | 'woman' | 'other'

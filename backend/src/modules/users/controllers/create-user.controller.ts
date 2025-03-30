@@ -20,12 +20,14 @@ export class CreateUserController {
 	@Post()
 	@UsePipes(new ZodValidationPipe(createUserWithAccountSchema))
 	async create(@Body() body: CreateUserWithAccountDTO) {
-		const { cpf, email, birthDate, gender, name, password, phone, profilePicture } = body
+		const { cpf, email, birthDate, gender, name, password, phone, profilePicture, role } = body
 
 		const accountData: AccountDTO = { cpf, email, phone, password }
-		const userData: UserDTO = { name, birthDate, gender, profilePicture }
+		const userData: UserDTO = { name, birthDate, gender, profilePicture, role }
 
 		const existingUser = await this.accounts.findIndexesCredentials(cpf, email, phone)
+
+		console.log('USUARIOS EXSITENTES ', existingUser)
 
 		const hashedPassword = await hash(accountData.password, 10)
 
@@ -35,7 +37,7 @@ export class CreateUserController {
 			throw new ConflictException('Already exist a user whit this credentials, try again.')
 		}
 
-		if (!accountId) {
+		if (!accountId && !existingUser) {
 			const newAccount = await this.accounts.create({
 				...accountData,
 				password: hashedPassword,
@@ -43,7 +45,6 @@ export class CreateUserController {
 
 			accountId = newAccount._id
 		}
-
 		if (!accountId) {
 			throw new Error('Failed to create o retrive account ID')
 		}

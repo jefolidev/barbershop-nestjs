@@ -25,7 +25,7 @@ import { Document } from 'mongoose'
 
 export type IAccount = Account & Document
 
-@Schema()
+@Schema({ versionKey: false })
 export class Account {
 	@Prop({ default: () => crypto.randomUUID() })
 	_id: string
