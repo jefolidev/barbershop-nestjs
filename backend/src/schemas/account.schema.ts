@@ -39,7 +39,7 @@ export class Account {
 	@Prop({ required: true, unique: true })
 	phone: string
 
-	@Prop({ required: false })
+	@Prop({ required: true })
 	password: string
 }
 
