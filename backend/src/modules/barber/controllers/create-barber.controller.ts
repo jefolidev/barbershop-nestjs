@@ -11,20 +11,19 @@ import { AccountService } from 'src/modules/account/accounts.service'
 import { AccountDTO } from 'src/modules/account/dto/create-account.dto'
 import { ZodValidationPipe } from 'src/pipes/zod-valitation.pipe'
 import { BarberService } from '../barber.service'
-import { BarberAndAccountDTO, BarberDTO, barberSchema } from '../dto/barber.dto'
+import { BarberAndAccountDTO, BarberDTO, barberAndAccountBodyRequesSchema } from '../dto/barber.dto'
 
 @Controller('barbers')
-export class BarberController {
+export class CreateNewBarberController {
 	constructor(
 		private barber: BarberService,
 		private account: AccountService,
 	) {}
 
 	@Post()
-	@UsePipes(new ZodValidationPipe(barberSchema))
+	@UsePipes(new ZodValidationPipe(barberAndAccountBodyRequesSchema))
 	async create(@Body() body: BarberAndAccountDTO) {
 		const {
-			_id,
 			birthDate,
 			createdAt,
 			gender,
@@ -39,7 +38,6 @@ export class BarberController {
 		} = body
 
 		const barberData: BarberDTO = {
-			_id,
 			birthDate,
 			createdAt,
 			gender,
@@ -55,6 +53,9 @@ export class BarberController {
 		if (barberAlreadyExists) {
 			throw new ConflictException('This account already exists, please do login.')
 		}
+
+		console.log(JSON.stringify(`BARBER DATA:  ${JSON.stringify(barberData, null, 2)}`))
+		console.log(JSON.stringify(`ACCOUNT DATA:  ${JSON.stringify(accountData, null, 2)}`))
 
 		const hashedPassword = await hash(accountData.password, 10)
 

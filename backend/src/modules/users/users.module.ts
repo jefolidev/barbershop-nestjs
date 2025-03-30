@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { AuthService } from 'src/auth/modules/auth.service'
 import { MongoUserSchema, User } from 'src/schemas/user.schema'
 import { AccountModule } from '../account/accounts.module'
 import { CreateUserController } from './controllers/create-user.controller'
@@ -17,7 +16,7 @@ import { UsersService } from './users.service'
 			},
 		]),
 	],
-	providers: [AuthService, UsersService],
+	providers: [UsersService],
 	controllers: [CreateUserController, GetAllUsersController],
 	exports: [UsersService],
 })

@@ -4,13 +4,15 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { AuthModule } from './auth/modules/auth.module'
 import { Env, envSchema } from './env'
 import { AccountModule } from './modules/account/accounts.module'
+import { BarberModule } from './modules/barber/barber.module'
 import { UsersModule } from './modules/users/users.module'
 
 @Module({
 	imports: [
-		UsersModule,
 		AccountModule,
 		AuthModule,
+		BarberModule,
+		UsersModule,
 
 		ConfigModule.forRoot({
 			validate: (env) => envSchema.parse(env),

@@ -22,13 +22,12 @@ const workScheduleSchema = z.record(
 )
 
 export const barberSchema = z.object({
-	_id: z.string().uuid(),
 	_accountId: z.string().uuid().optional(),
 	name: z.string(),
 	birthDate: z.coerce.date(),
 	role: z.enum(['user', 'barber']),
 	gender: z.enum(['man', 'woman', 'other']),
-	profilePicture: z.string(),
+	profilePicture: z.string().optional(),
 	workSchedule: workScheduleSchema,
 	createdAt: z.date().default(() => new Date()),
 })
