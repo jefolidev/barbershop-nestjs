@@ -1,4 +1,4 @@
-import { Prop, Schema } from '@nestjs/mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import type { Document } from 'mongoose'
 
 export type IAppointments = Appointments & Document
@@ -26,3 +26,5 @@ export class Appointments {
 	@Prop({ default: () => new Date() })
 	createdAt: Date
 }
+
+export const MongoAppointmentsSchema = SchemaFactory.createForClass(Appointments)
