@@ -31,10 +31,7 @@ export class OfferingsService {
 	}
 
 	async findOfferingById(offeringId: string): Promise<Offerings> {
-		console.log(`ID do Service de findOfferingById: ${offeringId}`)
 		const offering = await this.offeringModel.findOne({ _id: offeringId })
-
-		console.log(`Offering achado: ${offering}`)
 
 		if (!offering) {
 			throw new NotFoundException("Offering don't founded, please, try again!")
@@ -55,5 +52,9 @@ export class OfferingsService {
 		}
 
 		return result
+	}
+
+	async delete(offeringId: string) {
+		await this.offeringModel.findOne({ _id: offeringId }).deleteOne({ _id: offeringId })
 	}
 }
