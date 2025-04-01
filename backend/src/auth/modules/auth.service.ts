@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
-import { compare } from 'bcrypt'
-import { AccountService } from 'src/modules/account/accounts.service'
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcrypt';
+import { AccountService } from 'src/modules/account/accounts.service';
 
 @Injectable()
 export class AuthService {
