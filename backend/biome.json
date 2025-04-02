@@ -7,10 +7,15 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			"node_modules/*.js"
+		]
 	},
 	"formatter": {
 		"enabled": true,
+		"ignore": [
+			"node_modules/*.js"
+		],
 		"indentStyle": "tab"
 	},
 	"organizeImports": {
@@ -18,6 +23,9 @@
 	},
 	"linter": {
 		"enabled": true,
+		"ignore": [
+			"node_modules/*.js"
+		],
 		"rules": {
 			"recommended": true,
 			"complexity": {

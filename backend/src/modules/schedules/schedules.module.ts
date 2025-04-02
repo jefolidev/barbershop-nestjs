@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { MongoScheduleSchema, Schedules } from 'src/schemas/schedules.schema'
 import { BarberModule } from '../barber/barber.module'
@@ -11,7 +11,7 @@ import { ScheduleService } from './schedules.service'
 
 @Module({
 	imports: [
-		BarberModule,
+		forwardRef(() => BarberModule),
 		UsersModule,
 		OfferingsModule,
 		MongooseModule.forFeature([

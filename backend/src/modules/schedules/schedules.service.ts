@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { Schedules } from 'src/schemas/schedules.schema'
+import { BarberService } from '../barber/barber.service'
 import { SchedulesDTO } from './dto/schedules.dto'
 
 @Injectable()
@@ -9,6 +10,8 @@ export class ScheduleService {
 	constructor(
 		@InjectModel(Schedules.name)
 		private scheduleModel: Model<Schedules>,
+		@Inject(forwardRef(() => BarberService))
+		private barber: BarberService,
 	) {}
 
 	async findAll(): Promise<SchedulesDTO[]> {
