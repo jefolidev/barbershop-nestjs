@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { Barber } from 'src/schemas/barber.schema'
@@ -25,5 +25,13 @@ export class BarberService {
 		const barbers = this.barberModel.find().exec()
 
 		return barbers
+	}
+
+	async findBarberById(barberId: string) {
+		if (!barberId) {
+			throw new NotFoundException('User id is probably null or undefined.')
+		}
+
+		return await this.barberModel.findOne({ _id: barberId })
 	}
 }

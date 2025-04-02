@@ -5,6 +5,7 @@ import { BarberModule } from '../barber/barber.module'
 import { OfferingsModule } from '../offerings/offerings.module'
 import { UsersModule } from '../users/users.module'
 import { CreateNewSchedule } from './controllers/create-schedule.controller'
+import { GetScheduleByBarberIdController } from './controllers/get-schedules-by-barber-id..controller'
 import { GetScheduleByUserIdController } from './controllers/get-schedules-by-user-d.controller'
 import { ScheduleService } from './schedules.service'
 
@@ -20,7 +21,7 @@ import { ScheduleService } from './schedules.service'
 			},
 		]),
 	],
-	controllers: [CreateNewSchedule, GetScheduleByUserIdController],
+	controllers: [CreateNewSchedule, GetScheduleByBarberIdController, GetScheduleByUserIdController],
 	providers: [ScheduleService],
 	exports: [ScheduleService],
 })
