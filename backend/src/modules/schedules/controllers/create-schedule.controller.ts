@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common'
+import { Body, ConflictException, Controller, Param, Post } from '@nestjs/common'
 import { OfferingsService } from 'src/modules/offerings/offerings.service'
 import { Offerings } from 'src/schemas/offerings.schema'
 import { SchedulesDTO } from '../dto/schedules.dto'
@@ -24,6 +24,17 @@ export class CreateNewSchedule {
 		const totalPriceOfSchedule = servicesOfSchedule.reduce((total: number, service: Offerings) => {
 			return total + service.uniquePrice
 		}, 0)
+
+		const hasMoreThanOneServiceOfSameCategory = servicesOfSchedule.some((service, _, array) => {
+			return array.filter((_service) => _service.category === service.category).length > 1
+		})
+
+		if (hasMoreThanOneServiceOfSameCategory) {
+			throw new ConflictException(
+				`You cant't make a reserve with two same cattegory. You current request: ${servicesOfSchedule}`,
+				'Duplicated service cattegory',
+			)
+		}
 
 		const newSchedule: SchedulesDTO = {
 			...body,

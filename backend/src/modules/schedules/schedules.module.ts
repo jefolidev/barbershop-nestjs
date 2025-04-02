@@ -5,6 +5,7 @@ import { BarberModule } from '../barber/barber.module'
 import { OfferingsModule } from '../offerings/offerings.module'
 import { UsersModule } from '../users/users.module'
 import { CreateNewSchedule } from './controllers/create-schedule.controller'
+import { GetScheduleByUserIdController } from './controllers/get-schedules-by-user-d.controller'
 import { ScheduleService } from './schedules.service'
 
 @Module({
@@ -19,7 +20,7 @@ import { ScheduleService } from './schedules.service'
 			},
 		]),
 	],
-	controllers: [CreateNewSchedule],
+	controllers: [CreateNewSchedule, GetScheduleByUserIdController],
 	providers: [ScheduleService],
 	exports: [ScheduleService],
 })

@@ -15,6 +15,10 @@ export class ScheduleService {
 		return this.scheduleModel.find().exec()
 	}
 
+	async findScheduleByUserId(userId: string): Promise<SchedulesDTO[]> {
+		return this.scheduleModel.find({ _userId: userId }).exec()
+	}
+
 	async create(userId: string, scheduleData: SchedulesDTO) {
 		if (!userId) {
 			throw new NotFoundException(
