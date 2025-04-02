@@ -26,7 +26,7 @@ export class Barber {
 	@Prop({ required: false })
 	profilePicture: string
 
-	@Prop({ type: Map, required: true })
+	@Prop({ type: Object, required: true })
 	workSchedule: Record<string, { start: string; end: string }>
 
 	@Prop({ default: () => new Date() })
