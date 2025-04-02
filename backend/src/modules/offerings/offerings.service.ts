@@ -40,6 +40,10 @@ export class OfferingsService {
 		return offering
 	}
 
+	async findManyOfferingsById() {
+		
+	}
+
 	async editOfferingById(offeringId: string, offeringData: Offerings) {
 		const result = await this.offeringModel.updateOne(
 			{ _id: offeringId },

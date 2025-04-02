@@ -6,6 +6,14 @@ export type ISchedules = Schedules & Document
 
 type RatesValues = 1 | 2 | 3 | 4 | 5
 
+class Feedback {
+	@Prop({ required: false, type: Number })
+	rating?: RatesValues
+
+	@Prop({ required: false, type: String })
+	commentary?: string
+}
+
 @Schema({ versionKey: false })
 export class Schedules {
 	@Prop({ required: true, default: () => randomUUID() })
@@ -18,22 +26,22 @@ export class Schedules {
 	_userId: string
 
 	@Prop({ required: true })
-	_serviceId: string
+	_serviceId: string[]
 
 	@Prop({ required: false })
-	_requestId: string | undefined
+	_requestId: string
 
 	@Prop({ required: true })
 	scheduleDate: Date
 
 	@Prop({ required: false })
-	note: string | undefined
+	note: string
 
 	@Prop({ required: true })
 	hasNoShowFee: boolean
 
 	@Prop({ required: false })
-	noShowFeeValue: string | undefined
+	noShowFeeValue: string
 
 	@Prop({ required: true })
 	totalPrice: number
@@ -48,25 +56,19 @@ export class Schedules {
 	paymentModality: 'remote' | 'presencial'
 
 	@Prop({ required: false })
-	customerFeedback: {
-		rating: RatesValues | undefined
-		commentary: string | undefined
-	}
+	customerFeedback: Feedback
 
-	@Prop({ required: true })
+	@Prop({ required: true, default: () => new Date() })
 	scheduledAt: Date
 
 	@Prop({ required: false })
-	canceledAt: Date | undefined
+	canceledAt: Date
 
 	@Prop({ required: false })
-	cancelReason: string | undefined
+	cancelReason: string
 
 	@Prop({ required: false })
-	barberRating: {
-		rating: RatesValues | undefined
-		commentary: string | undefined
-	}
+	barberRating: Feedback
 }
 
 export const MongoScheduleSchema = SchemaFactory.createForClass(Schedules)

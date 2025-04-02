@@ -5,7 +5,7 @@ const RatesValues = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal
 export const SchedulesSchema = z.object({
 	_barberId: z.string().uuid(),
 	_userId: z.string().uuid(),
-	_serviceId: z.string().uuid(),
+	_serviceId: z.string().uuid().array(),
 	_requestId: z.string().uuid().optional(),
 	scheduleDate: z.date(),
 	note: z.string().optional(),
@@ -32,4 +32,4 @@ export const SchedulesSchema = z.object({
 		.optional(),
 })
 
-export type Schedules = z.infer<typeof SchedulesSchema>
+export type SchedulesDTO = z.infer<typeof SchedulesSchema>

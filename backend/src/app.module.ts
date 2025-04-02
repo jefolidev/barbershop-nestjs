@@ -6,6 +6,7 @@ import { Env, envSchema } from './env'
 import { AccountModule } from './modules/account/accounts.module'
 import { BarberModule } from './modules/barber/barber.module'
 import { OfferingsModule } from './modules/offerings/offerings.module'
+import { SchedulesModule } from './modules/schedules/schedules.module'
 import { UsersModule } from './modules/users/users.module'
 
 @Module({
@@ -13,6 +14,7 @@ import { UsersModule } from './modules/users/users.module'
 		AccountModule,
 		AuthModule,
 		BarberModule,
+		SchedulesModule,
 		OfferingsModule,
 		UsersModule,
 

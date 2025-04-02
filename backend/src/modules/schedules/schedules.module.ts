@@ -2,12 +2,16 @@ import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { MongoScheduleSchema, Schedules } from 'src/schemas/schedules.schema'
 import { BarberModule } from '../barber/barber.module'
+import { OfferingsModule } from '../offerings/offerings.module'
 import { UsersModule } from '../users/users.module'
+import { CreateNewSchedule } from './controllers/create-schedule.controller'
+import { ScheduleService } from './schedules.service'
 
 @Module({
 	imports: [
 		BarberModule,
 		UsersModule,
+		OfferingsModule,
 		MongooseModule.forFeature([
 			{
 				name: Schedules.name,
@@ -15,7 +19,8 @@ import { UsersModule } from '../users/users.module'
 			},
 		]),
 	],
-	controllers: [],
-	providers: [],
+	controllers: [CreateNewSchedule],
+	providers: [ScheduleService],
+	exports: [ScheduleService],
 })
 export class SchedulesModule {}
