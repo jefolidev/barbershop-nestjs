@@ -1,7 +1,9 @@
 import { Entity } from '@/core/entities/entity'
-import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import type { Rating } from '@/core/types/ratung'
-import type { Review } from './review'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { Rating } from '@/core/types/ratung'
+import { Appointment } from './appointment'
+import type { Payment } from './payment'
+import { Review } from './review'
 
 export interface ClientProps {
   id: UniqueEntityId

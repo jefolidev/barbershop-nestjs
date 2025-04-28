@@ -37,6 +37,11 @@ export class Appointment extends Entity<AppointmentProps> {
     return this.props.services
   }
 
+  set services(services: Service[]) {
+    this.props.services = services
+    this.touch()
+  }
+
   get status() {
     return this.props.status
   }
@@ -80,46 +85,6 @@ export class Appointment extends Entity<AppointmentProps> {
     return !!this.props.paymentId
   }
 
-  cancel() {
-    if (this.props.status === 'completed') {
-      throw new Error('This appointment is already completed.')
-    }
-
-    this.props.status = 'cancelled'
-    this.props.canceledAt = new Date()
-  }
-
-  complete() {
-    if (this.props.status !== 'pending') {
-      throw new Error('Only pending appointments can be completed.')
-    }
-
-    this.props.status = 'completed'
-    this.props.completedAt = new Date()
-  }
-
-  reschedule(newDate: Date) {
-    if (this.props.status !== 'pending') {
-      throw new Error(
-        "It's only possible reschedule an appointment that is pending"
-      )
-    }
-
-    if (this.props.paymentId) {
-      throw new Error(
-        "It's not possible to reschedule an appointment that has already been paid."
-      )
-    }
-
-    this.props.scheduleDate = newDate
-    this.touch()
-  }
-
-  updateServices(services: Service[]) {
-    this.props.services = services
-    this.touch()
-  }
-
   addPayment(paymentId: UniqueEntityId) {
     if (!paymentId) {
       throw new Error('Payment ID must be provided.')
@@ -140,6 +105,7 @@ export class Appointment extends Entity<AppointmentProps> {
     const appointment = new Appointment(
       {
         ...props,
+        status: 'pending',
         createdAt: props.createdAt ?? new Date(),
       },
       id
