@@ -41,11 +41,18 @@ export class Service extends Entity<ServiceProps> {
   }
 
   set category(category: ServiceCategory) {
-    this.category = category
+    this.props.category = category
   }
 
   get createdAt() {
     return this.props.createdAt
+  }
+
+  updatePrice(newPrice: number) {
+    if (newPrice <= 0) {
+      throw new Error('Price must be greater than zero.')
+    }
+    this.props.price = newPrice
   }
 
   static create(
