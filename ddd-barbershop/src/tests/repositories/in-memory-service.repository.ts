@@ -1,4 +1,4 @@
-import type { ServiceRepository } from '@/domain/appointments/applications/repositories/services.repository'
+import type { ServiceRepository } from '@/domain/appointments/applications/repositories/service.repository'
 import type { Service } from '@/domain/appointments/enterprise/entities/service'
 
 export class InMemoryServiceRepository implements ServiceRepository {

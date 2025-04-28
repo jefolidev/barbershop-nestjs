@@ -1,7 +1,7 @@
 import { right, type Either } from '@/core/either'
 import { Service } from '../../enterprise/entities/service'
 import type { ServiceCategory } from '../../enterprise/entities/value-objects/service-category'
-import type { ServiceRepository } from '../repositories/services.repository'
+import type { ServiceRepository } from '../repositories/service.repository'
 
 interface CreateServiceRequest {
   name: string

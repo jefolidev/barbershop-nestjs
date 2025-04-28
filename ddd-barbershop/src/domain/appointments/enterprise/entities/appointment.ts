@@ -99,13 +99,13 @@ export class Appointment extends Entity<AppointmentProps> {
   }
 
   static create(
-    props: Optional<AppointmentProps, 'createdAt'>,
+    props: Optional<AppointmentProps, 'createdAt' | 'status'>,
     id?: UniqueEntityId
   ) {
     const appointment = new Appointment(
       {
         ...props,
-        status: 'pending',
+        status: props.status ?? 'pending',
         createdAt: props.createdAt ?? new Date(),
       },
       id
