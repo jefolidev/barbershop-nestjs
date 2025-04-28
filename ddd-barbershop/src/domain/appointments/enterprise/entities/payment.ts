@@ -1,5 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import type { Optional } from '@/core/types/optional'
 import { PAYMENT_METHOD } from '@/core/types/payment-method'
 
 type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded'
@@ -58,4 +59,15 @@ export class Payment extends Entity<PaymentProps> {
     return this.props.status === 'refunded'
   }
 
+  create(props: Optional<PaymentProps, 'createdAt'>, id?: UniqueEntityId) {
+    const payment = new Payment(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id
+    )
+
+    return payment
+  }
 }
