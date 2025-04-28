@@ -6,8 +6,8 @@ interface ServiceCategoryProps {
 }
 
 export class ServiceCategory {
-  public name: string
-  public createdAt: Date
+  public readonly name: string
+  public readonly createdAt: Date
 
   constructor({ name, createdAt }: ServiceCategoryProps) {
     this.name = name
@@ -15,9 +15,13 @@ export class ServiceCategory {
   }
 
   static create(props: Optional<ServiceCategoryProps, 'createdAt'>) {
+    if (!props.name || props.name.trim().length === 0) {
+      throw new Error('Category name cannot be empty')
+    }
+
     const serviceCategory = new ServiceCategory({
       ...props,
-      createdAt: new Date(),
+      createdAt: props.createdAt ?? new Date(),
     })
 
     return serviceCategory
