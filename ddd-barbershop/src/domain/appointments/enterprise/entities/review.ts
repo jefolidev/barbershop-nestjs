@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
-import type { Rating } from '@/core/types/ratung'
+import type { Rating } from '@/core/types/rating'
 
 export interface ReviewProps {
   clientId: UniqueEntityId
