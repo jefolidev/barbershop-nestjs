@@ -2,6 +2,12 @@
   "name": "ddd-barbershop",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
+  },
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",

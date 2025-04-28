@@ -3,7 +3,6 @@ import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
 import { Rating } from '@/core/types/rating'
 import { Review } from './review'
-import type { Service } from './service'
 import type { WorkSchedule } from './value-objects/work-schedule'
 
 export interface BarberProps {
@@ -12,7 +11,6 @@ export interface BarberProps {
   reviews: Review[]
   workSchedule: WorkSchedule[]
   blockedWorkSchedule: WorkSchedule[]
-  services: Service[]
 }
 
 export class Barber extends Entity<BarberProps> {
@@ -54,14 +52,6 @@ export class Barber extends Entity<BarberProps> {
 
   set blockedWorkSchedule(blockedWorkSchedule: WorkSchedule[]) {
     this.props.blockedWorkSchedule = blockedWorkSchedule
-  }
-
-  get services(): Service[] {
-    return this.props.services
-  }
-
-  set services(services: Service[]) {
-    this.props.services = services
   }
 
   static create(
