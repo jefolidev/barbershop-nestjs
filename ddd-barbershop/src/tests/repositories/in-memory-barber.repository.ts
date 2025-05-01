@@ -7,4 +7,12 @@ export class InMemoryBarberRepository implements BarberRepository {
   async create(barber: Barber): Promise<void> {
     this.items.push(barber)
   }
+
+  async findById(barberId: string) {
+    const barber = this.items.find(
+      (barber) => barber.id.toString() === barberId
+    )
+
+    return barber ?? null
+  }
 }
