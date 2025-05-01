@@ -43,4 +43,12 @@ describe('Cancel a Appointment', () => {
       expect(appointment.status).toBe('cancelled')
     }
   })
+
+  it('should return an error if the appointment is not found', async () => {
+    const result = await sut.execute({
+      appointmentId: 'non-existent-id',
+    })
+
+    expect(result.isLeft()).toBe(true)
+  })
 })
