@@ -4,14 +4,14 @@ import { Appointment } from '../../enterprise/entities/appointment'
 import type { Service } from '../../enterprise/entities/service'
 import type { AppointmentRepository } from '../repositories/appointment.repository'
 
-interface CreateAppointmentRequest {
+interface CreateAppointmentUseCaseRequest {
   barberId: UniqueEntityId
   clientId: UniqueEntityId
   scheduleDate: Date
   services: Service[]
 }
 
-type CreateAppointmentResponse = Either<
+type CreateAppointmentUseCaseResponse = Either<
   null,
   {
     appointment: Appointment
@@ -26,7 +26,7 @@ export class CreateAppointmentUseCase {
     clientId,
     scheduleDate,
     services,
-  }: CreateAppointmentRequest): Promise<CreateAppointmentResponse> {
+  }: CreateAppointmentUseCaseRequest): Promise<CreateAppointmentUseCaseResponse> {
     const appointment = Appointment.create({
       barberId,
       clientId,

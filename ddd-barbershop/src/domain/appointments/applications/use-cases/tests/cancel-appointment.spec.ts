@@ -1,21 +1,21 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { Appointment } from '@/domain/appointments/enterprise/entities/appointment'
 import { makeCategory } from '@/tests/factories/make-category'
 import { makeService } from '@/tests/factories/make-service'
 import { InMemoryAppointmentRepository } from '@/tests/repositories/in-memory-appointment.repository'
-import { CreateAppointmentUseCase } from '../create-appointment'
+import { CancelAppointmentUseCase } from '../cancel-appointment'
 
 let inMemoryAppointmentRepository: InMemoryAppointmentRepository
-let sut: CreateAppointmentUseCase
+let sut: CancelAppointmentUseCase
 
-describe('Create Appointment', () => {
+describe('Cancel a Appointment', () => {
   beforeAll(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
-    sut = new CreateAppointmentUseCase(inMemoryAppointmentRepository)
+    sut = new CancelAppointmentUseCase(inMemoryAppointmentRepository)
   })
 
-  it('should be able to create a appointment', async () => {
+  it('should be possible to cancel a appointment', async () => {
     const hairCategory = makeCategory({ name: 'Cabelo' })
-    const beardCategory = makeCategory({ name: 'Barba' })
 
     const taperFade = makeService({
       name: 'Corte Americano',
@@ -23,24 +23,24 @@ describe('Create Appointment', () => {
       price: 25,
     })
 
-    const simpleShave = makeService({
-      name: 'Barba simples',
-      category: beardCategory,
-      price: 35,
-    })
-
-    const result = await sut.execute({
+    const newAppointment = Appointment.create({
       barberId: new UniqueEntityId('barber-1'),
       clientId: new UniqueEntityId('client-1'),
       scheduleDate: new Date('03/05/2025'),
-      services: [taperFade, simpleShave],
+      services: [taperFade],
     })
 
-    const appointment = result.value?.appointment
+    await inMemoryAppointmentRepository.create(newAppointment)
+
+    const appointmentId = newAppointment.id.toString()
+    const result = await sut.execute({ appointmentId })
 
     expect(result.isRight()).toBe(true)
-    expect(appointment?.paymentId).toBe(undefined)
-    expect(appointment?.status).toBe('pending')
-    expect(appointment?.services).toHaveLength(2)
+
+    if (result.isRight()) {
+      const appointment = result.value.appointment
+
+      expect(appointment.status).toBe('cancelled')
+    }
   })
 })

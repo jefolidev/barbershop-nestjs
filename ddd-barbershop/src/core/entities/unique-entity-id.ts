@@ -9,7 +9,7 @@ export class UniqueEntityId {
     return this.value
   }
 
-  constructor(value: string) {
+  constructor(value?: string) {
     this.value = value ?? crypto.randomUUID()
   }
 
