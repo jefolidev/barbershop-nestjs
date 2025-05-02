@@ -64,28 +64,46 @@ export class CreateAppointmentUseCase {
     })
 
     const barberAvailableTimes = barberOfCurrentSchedule?.workSchedule
+    const barberBlockedTimes = barberOfCurrentSchedule?.blockedWorkSchedule
     const dayOfScheduleDate = appointment.scheduleDate.getDay()
 
     const hasDisponibility = barberAvailableTimes.some((dates) => {
-      const [startHourStr, startMinuteStr] = dates.startTime.split(':')
-      const [endHourStr, endMinuteStr] = dates.endTime.split(':')
+      const start = dayjs(scheduleDate)
+        .hour(Number((dates.startTime ?? '00:00').split(':')[0]))
+        .minute(Number((dates.startTime ?? '00:00').split(':')[1]))
 
-      const barberInitialHour = dayjs(appointment.scheduleDate)
-        .hour(Number(startHourStr))
-        .minute(Number(startMinuteStr))
-        .toDate()
-      const barberLastHour = dayjs(appointment.scheduleDate)
-        .hour(Number(endHourStr))
-        .minute(Number(endMinuteStr))
-        .toDate()
+      const end = dayjs(scheduleDate)
+        .hour(Number((dates.endTime ?? '23:59').split(':')[0]))
+        .minute(Number((dates.endTime ?? '23:59').split(':')[1]))
 
-      return (
-        dates.dayOfWeek === dayOfScheduleDate &&
-        dayjs(appointment.scheduleDate).isBetween(
-          dayjs(barberInitialHour),
-          dayjs(barberLastHour)
-        )
+      const isDateAvailable = dates.dayOfWeek === dayOfScheduleDate
+      const isHoursAvailable = dayjs(appointment.scheduleDate).isBetween(
+        start,
+        end
       )
+
+      return isDateAvailable && isHoursAvailable
+    })
+
+    const isBlockedDay = barberBlockedTimes.some((blockedDate) => {
+      const start = dayjs(scheduleDate)
+        .hour(Number((blockedDate.startTime ?? '00:00').split(':')[0]))
+        .minute(Number((blockedDate.startTime ?? '00:00').split(':')[1]))
+
+      const end = dayjs(scheduleDate)
+        .hour(Number((blockedDate.endTime ?? '23:59').split(':')[0]))
+        .minute(Number((blockedDate.endTime ?? '23:59').split(':')[1]))
+
+      const isDateBlocked = blockedDate.dayOfWeek === dayOfScheduleDate
+
+      const isInBlockedTime = dayjs(scheduleDate).isBetween(
+        start,
+        end,
+        null,
+        '[]'
+      )
+
+      return isDateBlocked && isInBlockedTime
     })
 
     const servicesIds = services.map((service) => service.id.toValue())
@@ -99,8 +117,18 @@ export class CreateAppointmentUseCase {
       )
     }
 
+    if (isBlockedDay) {
+      return left(
+        new NoDisponibilityError('This barber dont work at selected time.')
+      )
+    }
+
     if (!hasDisponibility) {
-      return left(new NoDisponibilityError())
+      return left(
+        new NoDisponibilityError(
+          'The selected date/time is not available for this barber.'
+        )
+      )
     }
 
     await this.appointmentRepository.create(appointment)

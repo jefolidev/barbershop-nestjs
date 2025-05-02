@@ -6,10 +6,14 @@ interface WorkScheduleProps {
 
 export class WorkSchedule {
   public readonly dayOfWeek: number
-  public readonly startTime: string
-  public readonly endTime: string
+  public readonly startTime?: string
+  public readonly endTime?: string
 
-  constructor({ dayOfWeek, startTime, endTime }: WorkScheduleProps) {
+  constructor({
+    dayOfWeek,
+    startTime = '00:00',
+    endTime = '23:59',
+  }: WorkScheduleProps) {
     this.dayOfWeek = dayOfWeek
     this.startTime = startTime
     this.endTime = endTime
@@ -22,6 +26,8 @@ export class WorkSchedule {
   static create(props: WorkScheduleProps) {
     const workSchedule = new WorkSchedule({
       ...props,
+      startTime: props.startTime ?? '00:00',
+      endTime: props.endTime ?? '23:59',
     })
 
     return workSchedule
