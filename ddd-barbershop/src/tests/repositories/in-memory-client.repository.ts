@@ -7,4 +7,12 @@ export class InMemoryClientRepository implements ClientRepository {
   async create(client: Client): Promise<void> {
     this.items.push(client)
   }
+
+  async findById(clientId: string) {
+    const client = this.items.find(
+      (client) => client.id.toString() === clientId
+    )
+
+    return client ?? null
+  }
 }

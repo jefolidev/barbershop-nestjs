@@ -7,7 +7,37 @@ export function makeBarber(override: Partial<Barber> = {}) {
       fullName: 'John Doe',
       workSchedule: [
         {
+          dayOfWeek: 0,
+          startTime: '09:00',
+          endTime: '18:00',
+        },
+        {
           dayOfWeek: 1,
+          startTime: '09:00',
+          endTime: '18:00',
+        },
+        {
+          dayOfWeek: 2,
+          startTime: '09:00',
+          endTime: '18:00',
+        },
+        {
+          dayOfWeek: 3,
+          startTime: '09:00',
+          endTime: '18:00',
+        },
+        {
+          dayOfWeek: 4,
+          startTime: '09:00',
+          endTime: '18:00',
+        },
+        {
+          dayOfWeek: 5,
+          startTime: '09:00',
+          endTime: '18:00',
+        },
+        {
+          dayOfWeek: 6,
           startTime: '09:00',
           endTime: '18:00',
         },

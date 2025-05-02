@@ -5,10 +5,12 @@ import type { Service } from '../../enterprise/entities/service'
 import type { AppointmentRepository } from '../repositories/appointment.repository'
 import type { BarberRepository } from '../repositories/barber.repository'
 
+import { BadRequestError } from '@/core/errors/bad-request-error'
 import { NoDisponibilityError } from '@/core/errors/no-disponibility-error'
 import { NotFoundError } from '@/core/errors/resource-not-found-error'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
+import type { ClientRepository } from '../repositories/client.repository'
 
 dayjs.extend(isBetween)
 
@@ -29,7 +31,8 @@ type CreateAppointmentUseCaseResponse = Either<
 export class CreateAppointmentUseCase {
   constructor(
     private appointmentRepository: AppointmentRepository,
-    private barberRepository: BarberRepository
+    private barberRepository: BarberRepository,
+    private clientRepository: ClientRepository
   ) {}
 
   async execute({
@@ -41,9 +44,16 @@ export class CreateAppointmentUseCase {
     const barberOfCurrentSchedule = await this.barberRepository.findById(
       barberId.toString()
     )
+    const clientOfCurrentSchedule = await this.clientRepository.findById(
+      clientId.toString()
+    )
 
     if (!barberOfCurrentSchedule) {
-      return left(new NotFoundError())
+      return left(new NotFoundError('Barber not founded.'))
+    }
+
+    if (!clientOfCurrentSchedule) {
+      return left(new NotFoundError('User not founded'))
     }
 
     const appointment = Appointment.create({
@@ -77,6 +87,17 @@ export class CreateAppointmentUseCase {
         )
       )
     })
+
+    const servicesIds = services.map((service) => service.id.toValue())
+    const uniqueServiceId = new Set(servicesIds)
+
+    if (servicesIds.length !== uniqueServiceId.size) {
+      return left(
+        new BadRequestError(
+          'Duplicated services are not allowed in the same schedule.'
+        )
+      )
+    }
 
     if (!hasDisponibility) {
       return left(new NoDisponibilityError())
