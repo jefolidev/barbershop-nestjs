@@ -5,41 +5,42 @@ export function makeBarber(override: Partial<Barber> = {}) {
   return Barber.create(
     {
       fullName: 'John Doe',
+      upcomingAppointments: [],
       workSchedule: [
         {
           dayOfWeek: 0,
-          startTime: '09:00',
-          endTime: '18:00',
+          startTime: '00:00',
+          endTime: '23:00',
         },
         {
           dayOfWeek: 1,
-          startTime: '09:00',
-          endTime: '18:00',
+          startTime: '00:00',
+          endTime: '23:00',
         },
         {
           dayOfWeek: 2,
-          startTime: '09:00',
-          endTime: '18:00',
+          startTime: '00:00',
+          endTime: '23:00',
         },
         {
           dayOfWeek: 3,
-          startTime: '09:00',
-          endTime: '18:00',
+          startTime: '00:00',
+          endTime: '23:00',
         },
         {
           dayOfWeek: 4,
-          startTime: '09:00',
-          endTime: '18:00',
+          startTime: '00:00',
+          endTime: '23:00',
         },
         {
           dayOfWeek: 5,
-          startTime: '09:00',
-          endTime: '18:00',
+          startTime: '00:00',
+          endTime: '23:00',
         },
         {
           dayOfWeek: 6,
           startTime: '09:00',
-          endTime: '18:00',
+          endTime: '23:00',
         },
       ],
       ...override,

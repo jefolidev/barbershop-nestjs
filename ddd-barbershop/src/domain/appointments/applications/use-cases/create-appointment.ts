@@ -63,9 +63,10 @@ export class CreateAppointmentUseCase {
       services,
     })
 
+    const dayOfScheduleDate = appointment.scheduleDate.getDay()
+
     const barberAvailableTimes = barberOfCurrentSchedule?.workSchedule
     const barberBlockedTimes = barberOfCurrentSchedule?.blockedWorkSchedule
-    const dayOfScheduleDate = appointment.scheduleDate.getDay()
 
     const hasDisponibility = barberAvailableTimes.some((dates) => {
       const start = dayjs(scheduleDate)
@@ -106,6 +107,11 @@ export class CreateAppointmentUseCase {
       return isDateBlocked && isInBlockedTime
     })
 
+    const hasScheduleInSameHour =
+      barberOfCurrentSchedule.upcomingAppointments.some((appointment) => {
+        return dayjs(appointment.scheduleDate).isSame(scheduleDate)
+      })
+
     const servicesIds = services.map((service) => service.id.toValue())
     const uniqueServiceId = new Set(servicesIds)
 
@@ -128,6 +134,12 @@ export class CreateAppointmentUseCase {
         new NoDisponibilityError(
           'The selected date/time is not available for this barber.'
         )
+      )
+    }
+
+    if (hasScheduleInSameHour) {
+      return left(
+        new NoDisponibilityError('An appointment already exist at this time.')
       )
     }
 

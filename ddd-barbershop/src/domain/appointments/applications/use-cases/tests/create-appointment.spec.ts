@@ -28,20 +28,6 @@ describe('Create Appointment', () => {
   it('should be able to create a appointment', async () => {
     const barber = makeBarber({
       fullName: 'Jeferson Franco',
-      blockedWorkSchedule: [
-        {
-          dayOfWeek: 5,
-          startTime: '17:00',
-          endTime: '23:59',
-        },
-      ],
-      workSchedule: [
-        {
-          dayOfWeek: 5,
-          startTime: '00:00',
-          endTime: '23:00',
-        },
-      ],
     })
 
     const client = makeClient({
@@ -198,6 +184,35 @@ describe('Create Appointment', () => {
       expect(result.value.message).toBe(
         'This barber dont work at selected time.'
       )
+    }
+  })
+
+  it('should not be able to create a appointment if barber have another scheduled appointment at same time', async () => {
+    const barber = makeBarber({
+      upcomingAppointments: [
+        makeAppointment({ scheduleDate: new Date('2025-05-05T10:00:00') }),
+      ],
+    })
+
+    const client = makeClient()
+
+    await inMemoryBarberRepository.create(barber)
+    await inMemoryClientRepository.create(client)
+
+    const appointment = makeAppointment({
+      barberId: barber.id,
+      clientId: client.id,
+      scheduleDate: new Date('2025-05-05T10:00:00'),
+    })
+
+    const result = await sut.execute(appointment)
+
+    expect(result.isLeft()).toBe(true)
+
+    if (result.isLeft()) {
+      const error = result.value.message
+
+      expect(error).toBe('An appointment already exist at this time.')
     }
   })
 })
