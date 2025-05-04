@@ -65,7 +65,10 @@ export class Barber extends Entity<BarberProps> {
   }
 
   static create(
-    props: Optional<BarberProps, 'rating' | 'blockedWorkSchedule' | 'reviews'>,
+    props: Optional<
+      BarberProps,
+      'rating' | 'blockedWorkSchedule' | 'reviews' | 'upcomingAppointments'
+    >,
     id?: UniqueEntityId
   ) {
     const barber = new Barber(

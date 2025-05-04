@@ -26,13 +26,9 @@ describe('Create Appointment', () => {
   })
 
   it('should be able to create a appointment', async () => {
-    const barber = makeBarber({
-      fullName: 'Jeferson Franco',
-    })
+    const barber = makeBarber()
 
-    const client = makeClient({
-      fullName: 'barber',
-    })
+    const client = makeClient()
 
     await inMemoryBarberRepository.create(barber)
     await inMemoryClientRepository.create(client)

@@ -53,7 +53,7 @@ export class CreateAppointmentUseCase {
     }
 
     if (!clientOfCurrentSchedule) {
-      return left(new NotFoundError('User not founded'))
+      return left(new NotFoundError('Client not founded'))
     }
 
     const appointment = Appointment.create({

@@ -1,5 +1,5 @@
 - [x] O cliente não pode agendar horários inexistentes;
-- [ ] O cliente não pode possuir mais de um agendamento em um mesmo serviço;
+- [x] O cliente não pode possuir mais de um agendamento em um mesmo serviço;
 - [x] O cliente não pode agendar mais de um mesmo serviço no mesmo horário
 - [x] O cliente não pode escolher um barbeiro sem horários disponíveis;
 - [x] O cliente nao pode agendar um horário fora do período de funcionamento da barbearia;
