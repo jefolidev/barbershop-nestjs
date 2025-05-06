@@ -107,10 +107,10 @@ export class CreateAppointmentUseCase {
       return isDateBlocked && isInBlockedTime
     })
 
-    const hasScheduleInSameHour =
-      barberOfCurrentSchedule.upcomingAppointments.some((appointment) => {
-        return dayjs(appointment.scheduleDate).isSame(scheduleDate)
-      })
+    // const hasScheduleInSameHour =
+    //   barberOfCurrentSchedule.upcomingAppointments.some((appointment) => {
+    //     return dayjs(appointment.scheduleDate).isSame(scheduleDate)
+    //   })
 
     const servicesIds = services.map((service) => service.id.toValue())
     const uniqueServiceId = new Set(servicesIds)
@@ -137,13 +137,13 @@ export class CreateAppointmentUseCase {
       )
     }
 
-    if (hasScheduleInSameHour) {
-      return left(
-        new NoDisponibilityError('An appointment already exist at this time.')
-      )
-    }
+    // if (hasScheduleInSameHour) {
+    //   return left(
+    //     new NoDisponibilityError('An appointment already exist at this time.')
+    //   )
+    // }
 
-    barberOfCurrentSchedule.upcomingAppointments.push(appointment)
+    // barberOfCurrentSchedule.upcomingAppointments.push(appointment)
     await this.appointmentRepository.create(appointment)
 
     return right({

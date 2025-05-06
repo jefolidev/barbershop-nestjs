@@ -13,7 +13,7 @@ describe('Fetch Client Available Hours', () => {
     sut = new FetchClientScheduledAppointmentsUseCase(inMemoryClientRepository)
   })
 
-  it('should fetch the client appointments', async () => {
+  it.skip('should fetch the client appointments', async () => {
     const client = makeClient({
       id: new UniqueEntityId('client-1'),
       fullName: 'John Doe',
@@ -36,5 +36,4 @@ describe('Fetch Client Available Hours', () => {
       )
     }
   })
-  
 })

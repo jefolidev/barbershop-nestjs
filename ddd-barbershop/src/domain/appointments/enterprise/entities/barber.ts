@@ -2,7 +2,6 @@ import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
 import { Rating } from '@/core/types/rating'
-import type { Appointment } from './appointment'
 import { Review } from './review'
 import type { WorkSchedule } from './value-objects/work-schedule'
 
@@ -12,7 +11,6 @@ export interface BarberProps {
   reviews: Review[]
   workSchedule: WorkSchedule[]
   blockedWorkSchedule: WorkSchedule[]
-  upcomingAppointments: Appointment[]
 }
 
 export class Barber extends Entity<BarberProps> {
@@ -56,19 +54,8 @@ export class Barber extends Entity<BarberProps> {
     this.props.blockedWorkSchedule = blockedWorkSchedule
   }
 
-  get upcomingAppointments(): Appointment[] {
-    return this.props.upcomingAppointments
-  }
-
-  set upcomingAppointments(upcomingAppointments: Appointment[]) {
-    this.props.upcomingAppointments = upcomingAppointments
-  }
-
   static create(
-    props: Optional<
-      BarberProps,
-      'rating' | 'blockedWorkSchedule' | 'reviews' | 'upcomingAppointments'
-    >,
+    props: Optional<BarberProps, 'rating' | 'blockedWorkSchedule' | 'reviews'>,
     id?: UniqueEntityId
   ) {
     const barber = new Barber(
@@ -76,7 +63,6 @@ export class Barber extends Entity<BarberProps> {
         ...props,
         rating: props.rating ?? 0,
         reviews: props.reviews ?? [],
-        upcomingAppointments: props.upcomingAppointments ?? [],
         blockedWorkSchedule: props.blockedWorkSchedule ?? [],
       },
       id

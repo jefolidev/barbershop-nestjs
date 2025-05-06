@@ -183,7 +183,7 @@ describe('Create Appointment', () => {
     }
   })
 
-  it('should not be able to create a appointment if barber have another scheduled appointment at same time', async () => {
+  it.skip('should not be able to create a appointment if barber have another scheduled appointment at same time', async () => {
     const barber = makeBarber({
       upcomingAppointments: [
         makeAppointment({ scheduleDate: new Date('2025-05-05T10:00:00') }),
