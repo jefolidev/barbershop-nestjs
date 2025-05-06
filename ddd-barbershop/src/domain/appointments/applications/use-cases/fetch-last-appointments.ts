@@ -6,6 +6,7 @@ import type { ClientRepository } from '../repositories/client.repository'
 
 interface FetchLastAppointmentsUseCaseRequest {
   clientId: string
+  status?: 'pending' | 'completed' | 'cancelled'
 }
 
 type FetchLastAppointmentsUseCaseResponse = Either<
@@ -20,6 +21,7 @@ export class FetchLastAppointmentsUseCase {
 
   async execute({
     clientId,
+    status,
   }: FetchLastAppointmentsUseCaseRequest): Promise<FetchLastAppointmentsUseCaseResponse> {
     const client = await this.clientRepository.findById(clientId)
 
@@ -29,9 +31,17 @@ export class FetchLastAppointmentsUseCase {
 
     const fourMonthsAgo = dayjs().subtract(4, 'month')
 
-    const pastAppointments = client.pastAppointments.filter((appointment) =>
-      dayjs(appointment.scheduleDate).isAfter(fourMonthsAgo)
-    )
+    const pastAppointments = client.pastAppointments.filter((appointment) => {
+      return dayjs(appointment.scheduleDate).isAfter(fourMonthsAgo)
+    })
+
+    if (status) {
+      return right({
+        pastAppointments: pastAppointments.filter(
+          (appointment) => appointment.status === status
+        ),
+      })
+    }
 
     return right({
       pastAppointments,

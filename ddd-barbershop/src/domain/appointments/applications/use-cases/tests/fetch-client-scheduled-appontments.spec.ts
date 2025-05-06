@@ -36,4 +36,5 @@ describe('Fetch Client Available Hours', () => {
       )
     }
   })
+  
 })
