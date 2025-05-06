@@ -143,6 +143,7 @@ export class CreateAppointmentUseCase {
       )
     }
 
+    barberOfCurrentSchedule.upcomingAppointments.push(appointment)
     await this.appointmentRepository.create(appointment)
 
     return right({
