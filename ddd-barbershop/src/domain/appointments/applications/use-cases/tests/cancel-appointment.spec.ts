@@ -33,6 +33,7 @@ describe('Cancel a Appointment', () => {
     await inMemoryAppointmentRepository.create(newAppointment)
 
     const appointmentId = newAppointment.id.toString()
+    
     const result = await sut.execute({ appointmentId })
 
     expect(result.isRight()).toBe(true)

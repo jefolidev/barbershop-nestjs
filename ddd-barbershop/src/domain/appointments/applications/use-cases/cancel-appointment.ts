@@ -21,7 +21,7 @@ export class CancelAppointmentUseCase {
     appointmentId,
   }: CancelAppointmentUseCaseRequest): Promise<CancelAppointmentUseCaseResponse> {
     const appointment =
-      await this.appointmentsRepository.findById(appointmentId)
+      await this.appointmentsRepository.findManyById(appointmentId)
 
     if (!appointment) {
       return left(new NotFoundError())

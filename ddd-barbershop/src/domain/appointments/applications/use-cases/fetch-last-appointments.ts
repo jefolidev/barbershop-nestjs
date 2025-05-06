@@ -2,7 +2,7 @@ import { left, right, type Either } from '@/core/either'
 import { NotFoundError } from '@/core/errors/resource-not-found-error'
 import dayjs from 'dayjs'
 import type { Appointment } from '../../enterprise/entities/appointment'
-import type { ClientRepository } from '../repositories/client.repository'
+import type { AppointmentRepository } from '../repositories/appointment.repository'
 
 interface FetchLastAppointmentsUseCaseRequest {
   clientId: string
@@ -17,21 +17,22 @@ type FetchLastAppointmentsUseCaseResponse = Either<
 >
 
 export class FetchLastAppointmentsUseCase {
-  constructor(private clientRepository: ClientRepository) {}
+  constructor(private appointmentRepository: AppointmentRepository) {}
 
   async execute({
     clientId,
     status,
   }: FetchLastAppointmentsUseCaseRequest): Promise<FetchLastAppointmentsUseCaseResponse> {
-    const client = await this.clientRepository.findById(clientId)
+    const appointment =
+      await this.appointmentRepository.findManyByClientId(clientId)
 
-    if (!client) {
+    if (!appointment) {
       return left(new NotFoundError('User not founded.'))
     }
 
     const fourMonthsAgo = dayjs().subtract(4, 'month')
 
-    const pastAppointments = client.pastAppointments.filter((appointment) => {
+    const pastAppointments = appointment.filter((appointment) => {
       return dayjs(appointment.scheduleDate).isAfter(fourMonthsAgo)
     })
 

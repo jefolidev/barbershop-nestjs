@@ -178,17 +178,13 @@ describe('Create Appointment', () => {
 
     if (result.isLeft()) {
       expect(result.value.message).toBe(
-        'This barber dont work at selected time.'
+        'This barber doesnt work at selected time.'
       )
     }
   })
 
-  it.skip('should not be able to create a appointment if barber have another scheduled appointment at same time', async () => {
-    const barber = makeBarber({
-      upcomingAppointments: [
-        makeAppointment({ scheduleDate: new Date('2025-05-05T10:00:00') }),
-      ],
-    })
+  it('should not be able to create a appointment if barber have another scheduled appointment at same time', async () => {
+    const barber = makeBarber({})
 
     const client = makeClient()
 
@@ -200,6 +196,8 @@ describe('Create Appointment', () => {
       clientId: client.id,
       scheduleDate: new Date('2025-05-05T10:00:00'),
     })
+
+    await inMemoryAppointmentRepository.create(appointment)
 
     const result = await sut.execute(appointment)
 
