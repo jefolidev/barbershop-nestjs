@@ -64,7 +64,7 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     this.props.canceledAt = new Date()
   }
 
-  setInProgress() {
+  start() {
     if (this.props.status !== 'pending') {
       throw new Error('Only pending appointments can be seted as in progress.')
     }
