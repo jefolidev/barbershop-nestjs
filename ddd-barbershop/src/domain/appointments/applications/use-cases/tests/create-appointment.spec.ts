@@ -39,16 +39,18 @@ describe('Create Appointment', () => {
     })
 
     const result = await sut.execute(appointment)
-    // console.log(result) // Console no erro
 
     expect(result.isRight()).toBe(true)
 
     if (result.isRight()) {
       const appointment = result.value?.appointment
 
-      expect(appointment?.paymentId).toBe(undefined)
-      expect(appointment?.status).toBe('pending')
-      expect(appointment?.services).toHaveLength(1)
+      expect(inMemoryAppointmentRepository.items[0]).toEqual(
+        result.value?.appointment
+      )
+      expect(inMemoryAppointmentRepository.items[0]?.paymentId).toBe(undefined)
+      expect(inMemoryAppointmentRepository.items[0]?.status).toBe('pending')
+      expect(inMemoryAppointmentRepository.items[0]?.services).toHaveLength(1)
     }
   })
 
@@ -106,7 +108,6 @@ describe('Create Appointment', () => {
     })
 
     const result = await sut.execute(appointment)
-    // console.log(result.isLeft()) // Console no erro
 
     expect(result.isLeft()).toBe(true)
 
@@ -137,7 +138,6 @@ describe('Create Appointment', () => {
     })
 
     const result = await sut.execute(appointment)
-    // console.log(result.isLeft()) // Console no erro
 
     expect(result.isLeft()).toBe(true)
 
