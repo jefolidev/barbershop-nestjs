@@ -2,7 +2,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { makeAppointment } from '@/tests/factories/make-appointment'
 import { makeClient } from '@/tests/factories/make-client'
 import { InMemoryAppointmentRepository } from '@/tests/repositories/in-memory-appointment.repository'
-import { FetchClientScheduledAppointmentsUseCase } from '../fetch-client-scheduled-appontments'
+import { FetchClientScheduledAppointmentsUseCase } from '../fetch-client-scheduled-appointments'
 
 let inMemoryAppointmentRepository: InMemoryAppointmentRepository
 let sut: FetchClientScheduledAppointmentsUseCase
