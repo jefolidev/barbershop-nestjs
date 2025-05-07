@@ -8,7 +8,7 @@ export interface AppointmentProps {
   barberId: UniqueEntityId
   paymentId?: UniqueEntityId
   services: Service[]
-  status: 'pending' | 'completed' | 'cancelled'
+  status: 'pending' | 'completed' | 'cancelled' | 'in_progress' | 'no_show'
   scheduleDate: Date
   createdAt: Date
   canceledAt?: Date
@@ -61,6 +61,24 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     }
 
     this.props.status = 'cancelled'
+    this.props.canceledAt = new Date()
+  }
+
+  setInProgress() {
+    if (this.props.status !== 'pending') {
+      throw new Error('Only pending appointments can be seted as in progress.')
+    }
+
+    this.props.status = 'in_progress'
+    this.touch()
+  }
+
+  setAsNoShow() {
+    if (this.props.status !== 'pending') {
+      throw new Error('Only pending appointments can be seted as in progress.')
+    }
+
+    this.props.status = 'no_show'
     this.props.canceledAt = new Date()
   }
 
