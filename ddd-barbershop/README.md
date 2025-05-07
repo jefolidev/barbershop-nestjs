@@ -20,7 +20,6 @@
 
 - [ ] O cliente deve ser notificado se o barbeiro alterar ou cancelar o horário do agendamento
 
-
 - **Requisitos Funcionais — Barbeiros**
 
   [x] O barbeiro deve poder ver os agendamentos realizados pelos clientes nos seus horários;
@@ -31,18 +30,13 @@
   - [ ] O cliente deve receber uma solicitação ao acontecer algo
 
   [ ] O barbeiro deve poder ver um histórico dos atendimentos de até 4 meses;
-  [ ] O barbeiro deve poder concluir atendimentos ou determinar outros status:
-
-  - [ ] **Não iniciado** — quando o atendimento não foi inicializado;
-  - [ ] **Em andamento** — quando o atendimento foi inicializado;
-  - [ ] **Cancelado pelo cliente** — \*\*\*\*quando o cliente desmarcar;
-  - [ ] **Não compareceu —** quando o cliente nao comparecer ao horário agendado
-  - [ ] **Concluído** — quando o cliente paga presencialmente ou quando o atendimento é finalizado de vez quando pago pela internet
+  [x] O barbeiro deve poder concluir atendimentos ou determinar outros status: Não iniciado, Em andamento, Cancelado pelo cliente, Não compareceu e Concluído
 
   [ ] Caso o pagamento seja realizado de forma presencial o barbeiro deve poder atualizar o status do atendimento para “Pagamento recebido”
-    - Ao fazer isso, inserir o método de pagamento e o valor recebido pelo cliente
-  [ ] O barbeiro deve poder visualizar seus pagamentos;
-  [ ] O barbeiro deve poder ver históricos de pagamentos realizados como data, método de pagamento, valor recebido e o cliente;
+
+  - Ao fazer isso, inserir o método de pagamento e o valor recebido pelo cliente
+    [ ] O barbeiro deve poder visualizar seus pagamentos;
+    [ ] O barbeiro deve poder ver históricos de pagamentos realizados como data, método de pagamento, valor recebido e o cliente;
 
   [ ] O barbeiro deve poder visualizar as avaliações realizadas pelos clientes em relação ao seu atendimento;
   [ ] O barbeiro devera poder avaliar a experiencia de atendimento com o cliente
