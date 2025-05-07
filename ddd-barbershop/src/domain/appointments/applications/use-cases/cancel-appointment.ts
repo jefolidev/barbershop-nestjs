@@ -1,4 +1,5 @@
 import { left, right, type Either } from '@/core/either'
+import { BadRequestError } from '@/core/errors/bad-request-error'
 import { NotFoundError } from '@/core/errors/resource-not-found-error'
 import type { Appointment } from '../../enterprise/entities/appointment'
 import type { AppointmentRepository } from '../repositories/appointment.repository'
@@ -8,7 +9,7 @@ interface CancelAppointmentUseCaseRequest {
 }
 
 type CancelAppointmentUseCaseResponse = Either<
-  NotFoundError,
+  NotFoundError | BadRequestError,
   {
     appointment: Appointment
   }
@@ -27,7 +28,12 @@ export class CancelAppointmentUseCase {
       return left(new NotFoundError())
     }
 
-    appointment.status = 'cancelled'
+    try {
+      appointment.cancel()
+    } catch (err) {
+      return left(new BadRequestError(String(err)))
+    }
+
     await this.appointmentsRepository.save(appointment)
 
     return right({ appointment })

@@ -46,8 +46,22 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     return this.props.status
   }
 
-  set status(status: 'pending' | 'completed' | 'cancelled') {
-    this.props.status = status
+  complete() {
+    if (this.props.status !== 'pending') {
+      throw new Error('Only pending appointments can be completed.')
+    }
+
+    this.props.status = 'completed'
+    this.props.completedAt = new Date()
+  }
+
+  cancel() {
+    if (this.props.status !== 'pending') {
+      throw new Error('Only pending appointments can be canceled.')
+    }
+
+    this.props.status = 'cancelled'
+    this.props.canceledAt = new Date()
   }
 
   get scheduleDate() {
@@ -77,13 +91,6 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
 
   get createdAt(): Date {
     return this.props.createdAt
-  }
-
-  isOverdue(): boolean {
-    return (
-      this.props.status === 'pending' &&
-      this.props.scheduleDate.getDate() < Date.now()
-    )
   }
 
   hasPayment(): boolean {

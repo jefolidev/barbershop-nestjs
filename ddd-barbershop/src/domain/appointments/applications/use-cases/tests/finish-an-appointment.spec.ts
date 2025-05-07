@@ -1,49 +1,32 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { BadRequestError } from '@/core/errors/bad-request-error'
-import { Appointment } from '@/domain/appointments/enterprise/entities/appointment'
 import { makeAppointment } from '@/tests/factories/make-appointment'
-import { makeCategory } from '@/tests/factories/make-category'
-import { makeService } from '@/tests/factories/make-service'
 import { InMemoryAppointmentRepository } from '@/tests/repositories/in-memory-appointment.repository'
-import { CancelAppointmentUseCase } from '../cancel-appointment'
+import { FinishAnAppointmentUseCase } from '../finish-an-appointment'
 
 let inMemoryAppointmentRepository: InMemoryAppointmentRepository
-let sut: CancelAppointmentUseCase
+let sut: FinishAnAppointmentUseCase
 
 describe('Cancel a Appointment', () => {
   beforeAll(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
-    sut = new CancelAppointmentUseCase(inMemoryAppointmentRepository)
+    sut = new FinishAnAppointmentUseCase(inMemoryAppointmentRepository)
   })
 
   it('should be possible to cancel a appointment', async () => {
-    const hairCategory = makeCategory({ name: 'Cabelo' })
+    const appointment = makeAppointment()
 
-    const taperFade = makeService({
-      name: 'Corte Americano',
-      category: hairCategory,
-      price: 25,
+    await inMemoryAppointmentRepository.create(appointment)
+
+    const result = await sut.execute({
+      appointmentId: appointment.id.toString(),
     })
-
-    const newAppointment = Appointment.create({
-      barberId: new UniqueEntityId('barber-1'),
-      clientId: new UniqueEntityId('client-1'),
-      scheduleDate: new Date('03/05/2025'),
-      services: [taperFade],
-    })
-
-    await inMemoryAppointmentRepository.create(newAppointment)
-
-    const appointmentId = newAppointment.id.toString()
-
-    const result = await sut.execute({ appointmentId })
 
     expect(result.isRight()).toBe(true)
 
     if (result.isRight()) {
       const appointment = result.value.appointment
 
-      expect(appointment.status).toBe('cancelled')
+      expect(appointment.status).toBe('completed')
     }
   })
 
@@ -63,7 +46,7 @@ describe('Cancel a Appointment', () => {
     if (result.isLeft()) {
       expect(result.value).toBeInstanceOf(BadRequestError)
       expect(result.value.message).toBe(
-        'Error: Only pending appointments can be canceled.'
+        'Error: Only pending appointments can be completed.'
       )
     }
   })
