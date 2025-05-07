@@ -54,6 +54,11 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     return this.props.scheduleDate
   }
 
+  set scheduleDate(scheduleDate: Date) {
+    this.props.scheduleDate = scheduleDate
+    this.touch()
+  }
+
   get canceledAt(): Date | undefined {
     return this.props.canceledAt
   }

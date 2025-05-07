@@ -8,7 +8,7 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     this.items.push(appointment)
   }
 
-  async findManyById(appointmentId: string) {
+  async findById(appointmentId: string) {
     const appointment = this.items.find(
       (appointment) => appointment.id.toString() === appointmentId
     )

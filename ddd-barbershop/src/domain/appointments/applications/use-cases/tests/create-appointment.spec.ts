@@ -184,7 +184,7 @@ describe('Create Appointment', () => {
   })
 
   it('should not be able to create a appointment if barber have another scheduled appointment at same time', async () => {
-    const barber = makeBarber({})
+    const barber = makeBarber()
 
     const client = makeClient()
 
