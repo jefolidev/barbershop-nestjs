@@ -1,6 +1,7 @@
 import { makeAppointment } from '@/tests/factories/make-appointment'
 import { makeBarber } from '@/tests/factories/make-barber'
 import { makeClient } from '@/tests/factories/make-client'
+import { makeService } from '@/tests/factories/make-service'
 import { InMemoryAppointmentRepository } from '@/tests/repositories/in-memory-appointment.repository'
 import { InMemoryBarberRepository } from '@/tests/repositories/in-memory-barber.repository'
 import { InMemoryClientRepository } from '@/tests/repositories/in-memory-client.repository'
@@ -44,7 +45,7 @@ describe('On Appointment Updated', () => {
     )
   })
 
-  it('should send a notification when an appointment is updated', async () => {
+  it('should send a notification when an appointment is rescheduled', async () => {
     const barber = makeBarber()
     const client = makeClient()
 
@@ -57,15 +58,11 @@ describe('On Appointment Updated', () => {
       scheduleDate: new Date('2025-06-06'),
     })
 
-    console.log(`antigad data: ${appointment.scheduleDate}`)
-
     await inMemoryAppointmentRepository.create(appointment)
 
     sendNotificationExectueSpy.mockClear()
 
     appointment.scheduleDate = new Date('2025-06-07')
-
-    console.log(`nova data: ${appointment.scheduleDate}`)
 
     await inMemoryAppointmentRepository.save(appointment)
 
@@ -77,5 +74,42 @@ describe('On Appointment Updated', () => {
     )
 
     expect(appointment.scheduleDate).toEqual(new Date('2025-06-07'))
+  })
+
+  it('should send a notification when an appointment service get changed', async () => {
+    const barber = makeBarber()
+    const client = makeClient()
+
+    const service = makeService({
+      name: 'Americano',
+    })
+
+    await inMemoryBarberRepository.create(barber)
+    await inMemoryClientRepository.create(client)
+
+    const appointment = makeAppointment({
+      barberId: barber.id,
+      clientId: client.id,
+      services: [service],
+    })
+
+    await inMemoryAppointmentRepository.create(appointment)
+
+    sendNotificationExectueSpy.mockClear()
+
+    const newService = makeService({
+      name: 'Moicano',
+    })
+
+    appointment.services = [newService]
+
+    await inMemoryAppointmentRepository.save(appointment)
+
+    await vi.waitFor(
+      () => {
+        expect(sendNotificationExectueSpy).toHaveBeenCalled()
+      },
+      { timeout: 1000 }
+    )
   })
 })

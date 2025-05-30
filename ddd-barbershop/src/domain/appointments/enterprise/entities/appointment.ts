@@ -40,8 +40,11 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
   }
 
   set services(services: Service[]) {
-    this.props.services = services
-    this.touch()
+    if (services !== this.props.services) {
+      this.addDomainEvent(new AppointmentUpdatedEvent(this))
+      this.props.services = services
+      this.touch()
+    }
   }
 
   get status() {
