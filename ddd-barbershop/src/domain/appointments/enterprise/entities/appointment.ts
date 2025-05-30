@@ -2,7 +2,8 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
 import dayjs from 'dayjs'
-import { AppointmentCanceledEvent } from '../events/appointment-canceled-event'
+import { AppointmentCanceledByBarberEvent } from '../events/appointment-canceled-event-by-barber'
+import { AppointmentCanceledByClientEvent } from '../events/appointment-canceled-event-by-client'
 import { AppointmentCreatedEvent } from '../events/appointment-created-event'
 import { AppointmentReminderEvent } from '../events/appointment-reminder-event'
 import { AppointmentUpdatedEvent } from '../events/appointment-updated-event'
@@ -15,6 +16,7 @@ export interface AppointmentProps {
   services: Service[]
   status: 'pending' | 'completed' | 'cancelled' | 'in_progress' | 'no_show'
   scheduleDate: Date
+  cancelReason?: string
   createdAt: Date
   canceledAt?: Date
   updatedAt?: Date
@@ -54,6 +56,10 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     return this.props.status
   }
 
+  get cancelReason() {
+    return this.props.cancelReason
+  }
+
   complete() {
     if (this.props.status !== 'pending') {
       throw new Error('Only pending appointments can be completed.')
@@ -63,14 +69,20 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     this.props.completedAt = new Date()
   }
 
-  cancel() {
+  cancel(reason?: string) {
     if (this.props.status !== 'pending') {
       throw new Error('Only pending appointments can be canceled.')
     }
 
     this.props.status = 'cancelled'
     this.props.canceledAt = new Date()
-    this.addDomainEvent(new AppointmentCanceledEvent(this))
+
+    if (!reason) {
+      this.addDomainEvent(new AppointmentCanceledByClientEvent(this))
+    } else {
+      this.props.cancelReason = reason
+      this.addDomainEvent(new AppointmentCanceledByBarberEvent(this, reason))
+    }
   }
 
   start() {

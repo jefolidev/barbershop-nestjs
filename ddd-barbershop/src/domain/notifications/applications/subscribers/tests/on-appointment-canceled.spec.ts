@@ -44,7 +44,7 @@ describe('On Appointment Canceled', () => {
     )
   })
 
-  it('should send a notification when an appointment is canceled', async () => {
+  it('should send a notification when the client cancel an appointment is canceled', async () => {
     const barber = makeBarber()
     const client = makeClient()
 
@@ -68,5 +68,31 @@ describe('On Appointment Canceled', () => {
 
     expect(appointment.canceledAt?.getDate()).toEqual(new Date().getDate())
     expect(appointment.status).toMatch('cancelled')
+  })
+
+  it('should send a notification when the barber cancel an appointment is canceled', async () => {
+    const barber = makeBarber()
+    const client = makeClient()
+
+    await inMemoryBarberRepository.create(barber)
+    await inMemoryClientRepository.create(client)
+
+    const appointment = makeAppointment({
+      barberId: barber.id,
+      clientId: client.id,
+    })
+
+    inMemoryAppointmentRepository.create(appointment)
+
+    appointment.cancel('Barbeiro doente.')
+
+    inMemoryAppointmentRepository.save(appointment)
+
+    await vi.waitFor(() => {
+      expect(sendNotificationExectueSpy).toHaveBeenCalled()
+    })
+
+    expect(appointment.cancelReason).toMatch('Barbeiro doente.')
+    expect(appointment.canceledAt?.getDate()).toEqual(new Date().getDate())
   })
 })
