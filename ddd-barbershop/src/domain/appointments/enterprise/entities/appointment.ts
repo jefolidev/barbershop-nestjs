@@ -2,6 +2,7 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
 import { AppointmentCreatedEvent } from '../events/appointment-created-event'
+import { AppointmentUpdatedEvent } from '../events/appointment-updated-event'
 import type { Service } from './service'
 
 export interface AppointmentProps {
@@ -88,8 +89,11 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
   }
 
   set scheduleDate(scheduleDate: Date) {
-    this.props.scheduleDate = scheduleDate
-    this.touch()
+    if (scheduleDate !== this.props.scheduleDate) {
+      this.addDomainEvent(new AppointmentUpdatedEvent(this))
+      this.props.scheduleDate = scheduleDate
+      this.touch()
+    }
   }
 
   get canceledAt(): Date | undefined {
