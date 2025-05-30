@@ -1,8 +1,10 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
+import dayjs from 'dayjs'
 import { AppointmentCanceledEvent } from '../events/appointment-canceled-event'
 import { AppointmentCreatedEvent } from '../events/appointment-created-event'
+import { AppointmentReminderEvent } from '../events/appointment-reminder-event'
 import { AppointmentUpdatedEvent } from '../events/appointment-updated-event'
 import type { Service } from './service'
 
@@ -95,9 +97,11 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
 
   set scheduleDate(scheduleDate: Date) {
     if (scheduleDate !== this.props.scheduleDate) {
-      this.addDomainEvent(new AppointmentUpdatedEvent(this))
       this.props.scheduleDate = scheduleDate
+      this.addDomainEvent(new AppointmentUpdatedEvent(this))
+
       this.touch()
+      this.scheduleReminder()
     }
   }
 
@@ -138,6 +142,13 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     this.touch()
   }
 
+  private scheduleReminder() {
+    const reminderDate = dayjs(this.props.scheduleDate)
+      .subtract(30, 'minutes')
+      .toDate()
+    this.addDomainEvent(new AppointmentReminderEvent(this, reminderDate))
+  }
+
   static create(
     props: Optional<AppointmentProps, 'createdAt' | 'status'>,
     id?: UniqueEntityId
@@ -155,6 +166,7 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
 
     if (isNewAppointment) {
       appointment.addDomainEvent(new AppointmentCreatedEvent(appointment))
+      appointment.scheduleReminder()
     }
 
     return appointment
