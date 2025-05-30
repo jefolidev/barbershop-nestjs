@@ -1,7 +1,6 @@
 import { makeAppointment } from '@/tests/factories/make-appointment'
 import { makeBarber } from '@/tests/factories/make-barber'
 import { makeClient } from '@/tests/factories/make-client'
-import { makeService } from '@/tests/factories/make-service'
 import { InMemoryAppointmentRepository } from '@/tests/repositories/in-memory-appointment.repository'
 import { InMemoryBarberRepository } from '@/tests/repositories/in-memory-barber.repository'
 import { InMemoryClientRepository } from '@/tests/repositories/in-memory-client.repository'
@@ -12,7 +11,7 @@ import {
   type SendNotificationUseCaseRequest,
   type SendNotificationUseCaseResponse,
 } from '../../use-cases/send-notification'
-import { OnAppointmentUpdated } from '../on-appointment-updated'
+import { OnAppointmentCanceled } from '../on-apppointment-canceled'
 
 let inMemoryBarberRepository: InMemoryBarberRepository
 let inMemoryClientRepository: InMemoryClientRepository
@@ -26,7 +25,7 @@ let sendNotificationExectueSpy: MockInstance<
   ) => Promise<SendNotificationUseCaseResponse>
 >
 
-describe('On Appointment Updated', () => {
+describe('On Appointment Canceled', () => {
   beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     inMemoryBarberRepository = new InMemoryBarberRepository()
@@ -38,14 +37,14 @@ describe('On Appointment Updated', () => {
 
     sendNotificationExectueSpy = vi.spyOn(sendNotificationUseCase, 'execute')
 
-    new OnAppointmentUpdated(
+    new OnAppointmentCanceled(
       inMemoryBarberRepository,
       inMemoryClientRepository,
       sendNotificationUseCase
     )
   })
 
-  it('should send a notification when an appointment is rescheduled', async () => {
+  it('should send a notification when an appointment is canceled', async () => {
     const barber = makeBarber()
     const client = makeClient()
 
@@ -55,63 +54,19 @@ describe('On Appointment Updated', () => {
     const appointment = makeAppointment({
       barberId: barber.id,
       clientId: client.id,
-      scheduleDate: new Date('2025-06-06'),
     })
 
-    await inMemoryAppointmentRepository.create(appointment)
+    inMemoryAppointmentRepository.create(appointment)
 
-    sendNotificationExectueSpy.mockClear()
+    appointment.cancel()
 
-    appointment.scheduleDate = new Date('2025-06-07')
+    inMemoryAppointmentRepository.save(appointment)
 
-    await inMemoryAppointmentRepository.save(appointment)
-
-    await vi.waitFor(
-      () => {
-        expect(sendNotificationExectueSpy).toHaveBeenCalled()
-      },
-      { timeout: 1000 }
-    )
-
-    expect(appointment.scheduleDate).toEqual(new Date('2025-06-07'))
-  })
-
-  it('should send a notification when an appointment service get changed', async () => {
-    const barber = makeBarber()
-    const client = makeClient()
-
-    const service = makeService({
-      name: 'Americano',
+    await vi.waitFor(() => {
+      expect(sendNotificationExectueSpy).toHaveBeenCalled()
     })
 
-    await inMemoryBarberRepository.create(barber)
-    await inMemoryClientRepository.create(client)
-
-    const appointment = makeAppointment({
-      barberId: barber.id,
-      clientId: client.id,
-      services: [service],
-    })
-
-    await inMemoryAppointmentRepository.create(appointment)
-
-    sendNotificationExectueSpy.mockClear()
-
-    const newService = makeService({
-      name: 'Moicano',
-    })
-
-    appointment.services = [newService]
-
-    await inMemoryAppointmentRepository.save(appointment)
-
-    await vi.waitFor(
-      () => {
-        expect(sendNotificationExectueSpy).toHaveBeenCalled()
-      },
-      { timeout: 1000 }
-    )
-
-    expect(appointment.services[0]?.name).toMatch('Moicano')
+    expect(appointment.canceledAt?.getDate()).toEqual(new Date().getDate())
+    expect(appointment.status).toMatch('cancelled')
   })
 })

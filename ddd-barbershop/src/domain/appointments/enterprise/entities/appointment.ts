@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
+import { AppointmentCanceledEvent } from '../events/appointment-canceled-event'
 import { AppointmentCreatedEvent } from '../events/appointment-created-event'
 import { AppointmentUpdatedEvent } from '../events/appointment-updated-event'
 import type { Service } from './service'
@@ -67,6 +68,7 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
 
     this.props.status = 'cancelled'
     this.props.canceledAt = new Date()
+    this.addDomainEvent(new AppointmentCanceledEvent(this))
   }
 
   start() {

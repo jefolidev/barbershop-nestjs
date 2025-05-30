@@ -31,8 +31,6 @@ export class SendNotificationUseCase {
 
     await this.notificationRepository.create(notification)
 
-    console.log(notification)
-
     return right({
       notification,
     })
