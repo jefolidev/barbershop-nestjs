@@ -29,7 +29,7 @@
 
   - [ ] O cliente deve receber uma solicitação ao acontecer algo
 
-  [ ] O barbeiro deve poder ver um histórico dos atendimentos de até 4 meses;
+  [x] O barbeiro deve poder ver um histórico dos atendimentos de até 4 meses;
   [x] O barbeiro deve poder concluir atendimentos ou determinar outros status: Não iniciado, Em andamento, Cancelado pelo cliente, Não compareceu e Concluído
 
   [ ] Caso o pagamento seja realizado de forma presencial o barbeiro deve poder atualizar o status do atendimento para “Pagamento recebido”
@@ -45,20 +45,16 @@
 
   [ ] O barbeiro deve receber uma notificação quando um cliente agendar ou cancelar um horário;
   [ ] O barbeiro deve receber uma notificação 30 minutos antes sobre o próximo atendimento agendado;
-  [ ] O barbeiro devera receber uma notificação se algum cliente cancelar ou alterar seu agendamento;
   [ ] O barbeiro devera ser notificado se o cliente deixou uma avaliação de seu atendimento;
   [ ] O barbeiro deve receber uma notificação quando um cliente realizar o pagamento de um agendamento;
-  [ ] O barbeiro deve ser notificado se o cliente deixe de comparecer ao seu atendimento;
-  [ ] O barbeiro deve ser notificado de qualquer alteracao no agendamento, como mudança de horário ou serviço solicitado
 
 - **Regras de Negocio — Barbeiros**
 
-  [ ] O barbeiro não pode agendar atendimentos em horários em que já tenha agendado outros atendimentos;
-  [ ] O barbeiro deve garantir que o horário de atendimento esteja dentro do período de funcionamento da barbearia;
-  [ ] O barbeiro não pode alterar um agendamento de um cliente se o horário nao tiver disponibilidade;
+  [x] O barbeiro não pode agendar atendimentos em horários em que já tenha agendado outros atendimentos;
+  [x] O barbeiro deve garantir que o horário de atendimento esteja dentro do período de funcionamento da barbearia;
   [ ] O barbeiro deve garantir que só poderá alterar ou cancelar um agendamento se for aceito pela solicitação feita ao cliente, caso contrario, devera reembolsar o cliente;
-  [ ] O barbeiro deve poder bloquear horários em que nao estará disponível, mas devera notificar os clientes caso isso altere agendamentos previamente agendados;
-  [ ] O barbeiro não pode realizar mais de um atendimento ao mesmo tempo no mesmo horário;
+  [1/2] O barbeiro deve poder bloquear horários em que nao estará disponível, mas devera notificar os clientes caso isso altere agendamentos previamente agendados; // Ainda precisa mandar a notificacao
+  [x] O barbeiro não pode realizar mais de um atendimento ao mesmo tempo no mesmo horário;
   [ ] O barbeiro nao pode finalizar um atendimento ate que o pagamento tenha sido realizado
 
 - **Notificações**

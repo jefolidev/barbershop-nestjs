@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
+import { AppointmentCreatedEvent } from '../events/appointment-created-event'
 import type { Service } from './service'
 
 export interface AppointmentProps {
@@ -140,6 +141,12 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
       },
       id
     )
+
+    const isNewAppointment = !id
+
+    if (isNewAppointment) {
+      appointment.addDomainEvent(new AppointmentCreatedEvent(appointment))
+    }
 
     return appointment
   }

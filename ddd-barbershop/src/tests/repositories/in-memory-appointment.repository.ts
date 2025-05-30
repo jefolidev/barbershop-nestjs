@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import type { AppointmentRepository } from '@/domain/appointments/applications/repositories/appointment.repository'
 import { Appointment } from '@/domain/appointments/enterprise/entities/appointment'
 
@@ -6,6 +7,8 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
 
   async create(appointment: Appointment): Promise<void> {
     this.items.push(appointment)
+
+    DomainEvents.dispatchEventsForAggregate(appointment.id)
   }
 
   async findById(appointmentId: string) {
@@ -35,6 +38,8 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
   async save(appointment: Appointment): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === appointment.id)
 
-    this.items[itemIndex] === appointment
+    this.items[itemIndex] = appointment
+
+    DomainEvents.dispatchEventsForAggregate(appointment.id)
   }
 }
