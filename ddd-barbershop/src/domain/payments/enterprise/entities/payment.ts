@@ -76,7 +76,7 @@ export class Payment extends Entity<PaymentProps> {
   }
 
   static create(
-    props: Optional<PaymentProps, 'createdAt'>,
+    props: Optional<PaymentProps, 'createdAt' | 'isPaid' | 'status'>,
     id?: UniqueEntityId
   ) {
     const payment = new Payment(

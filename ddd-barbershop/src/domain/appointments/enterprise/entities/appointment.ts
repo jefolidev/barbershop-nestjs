@@ -40,6 +40,10 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     return this.props.paymentId
   }
 
+  set paymentId(paymentId: UniqueEntityId) {
+    this.props.paymentId = paymentId
+  }
+
   get services() {
     return this.props.services
   }
