@@ -1,14 +1,18 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
-import { PAYMENT_METHOD } from '@/core/types/payment-method'
-
-type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded'
+import {
+  PAYMENT_METHOD,
+  type PAYMENT_MODALITY,
+  type PaymentStatus,
+} from '@/core/types/payment'
 
 export interface PaymentProps {
   appointmentId: UniqueEntityId
   amount: number
   method: PAYMENT_METHOD
+  modality: PAYMENT_MODALITY
+  isPaid: boolean
   status: PaymentStatus
   paidAt?: Date
   createdAt: Date
@@ -39,7 +43,7 @@ export class Payment extends Entity<PaymentProps> {
     return this.props.status
   }
 
-  set status(status: 'pending' | 'paid' | 'failed' | 'refunded') {
+  set status(status: PaymentStatus) {
     this.props.status = status
   }
 
@@ -47,8 +51,20 @@ export class Payment extends Entity<PaymentProps> {
     return this.props.createdAt
   }
 
-  isPaid(): boolean {
-    return this.props.status === 'paid' && this.props.paidAt != null
+  get isPaid(): boolean {
+    return this.props.isPaid
+  }
+
+  set isPaid(isPaid: boolean) {
+    if (this.props.status === 'pending') {
+      this.props.isPaid = isPaid
+      this.props.paidAt = new Date()
+      this.props.status = 'paid'
+    }
+  }
+
+  get paidAt(): Date | undefined {
+    return this.props.paidAt
   }
 
   isPending(): boolean {
@@ -59,10 +75,15 @@ export class Payment extends Entity<PaymentProps> {
     return this.props.status === 'refunded'
   }
 
-  create(props: Optional<PaymentProps, 'createdAt'>, id?: UniqueEntityId) {
+  static create(
+    props: Optional<PaymentProps, 'createdAt'>,
+    id?: UniqueEntityId
+  ) {
     const payment = new Payment(
       {
         ...props,
+        status: props.status ?? 'pending',
+        isPaid: props.isPaid ?? false,
         createdAt: props.createdAt ?? new Date(),
       },
       id
