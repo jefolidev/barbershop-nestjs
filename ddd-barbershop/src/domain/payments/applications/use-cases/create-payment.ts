@@ -62,6 +62,8 @@ export class CreatePaymentUseCase {
 
     await this.paymentRepository.create(payment)
 
+    payment.isPaid = payment.status === 'paid' ? true : false
+
     appointmentOfCurrentPayment.paymentId = payment.id
     await this.appointmentRepository.save(appointmentOfCurrentPayment)
 

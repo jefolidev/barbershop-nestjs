@@ -56,10 +56,9 @@ export class Payment extends Entity<PaymentProps> {
   }
 
   set isPaid(isPaid: boolean) {
-    if (this.props.status === 'pending') {
-      this.props.isPaid = isPaid
+    if (this.props.status === 'paid') {
+      this.props.isPaid = true
       this.props.paidAt = new Date()
-      this.props.status = 'paid'
     }
   }
 
