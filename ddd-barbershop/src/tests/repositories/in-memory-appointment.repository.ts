@@ -1,6 +1,7 @@
 import { DomainEvents } from '@/core/events/domain-events'
 import type { AppointmentRepository } from '@/domain/appointments/applications/repositories/appointment.repository'
 import { Appointment } from '@/domain/appointments/enterprise/entities/appointment'
+import dayjs from 'dayjs'
 
 export class InMemoryAppointmentRepository implements AppointmentRepository {
   public items: Appointment[] = []
@@ -25,6 +26,14 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     )
 
     return appointment ?? []
+  }
+
+  async fetchAllScheduledForToday(): Promise<Appointment[]> {
+    const appointments = this.items.filter((appointment) => {
+      dayjs(appointment.scheduleDate).isSame(dayjs())
+    })
+
+    return appointments
   }
 
   async findManyByClientId(clientId: string) {

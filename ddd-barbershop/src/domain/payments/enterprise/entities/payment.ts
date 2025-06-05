@@ -1,4 +1,4 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
 import {
@@ -6,6 +6,7 @@ import {
   type PAYMENT_MODALITY,
   type PaymentStatus,
 } from '@/core/types/payment'
+import { PaymentSuccessEvent } from '@/domain/appointments/enterprise/events/payment-success-event'
 
 export interface PaymentProps {
   appointmentId: UniqueEntityId
@@ -18,7 +19,7 @@ export interface PaymentProps {
   createdAt: Date
 }
 
-export class Payment extends Entity<PaymentProps> {
+export class Payment extends AggregateRoot<PaymentProps> {
   get appointmentId() {
     return this.props.appointmentId
   }
@@ -87,6 +88,12 @@ export class Payment extends Entity<PaymentProps> {
       },
       id
     )
+
+    const isNewPayment = !id
+
+    if (isNewPayment) {
+      payment.addDomainEvent(new PaymentSuccessEvent(payment))
+    }
 
     return payment
   }

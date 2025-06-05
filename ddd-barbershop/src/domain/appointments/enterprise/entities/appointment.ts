@@ -158,6 +158,10 @@ export class Appointment extends AggregateRoot<AppointmentProps> {
     this.touch()
   }
 
+  get totalPrice(): number {
+    return this.props.services.reduce((acc, service) => acc + service.price, 0)
+  }
+
   private scheduleReminder() {
     const reminderDate = dayjs(this.props.scheduleDate)
       .subtract(30, 'minutes')

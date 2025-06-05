@@ -44,18 +44,11 @@ export class CreatePaymentUseCase {
       return left(new BadRequestError('Appointment has no services.'))
     }
 
-    const appointmentTotalAmount = servicesOfAppointment.reduce(
-      (total, service) => {
-        return total + service.price
-      },
-      0
-    )
-
     const payment = Payment.create({
       appointmentId,
       method,
       modality,
-      amount: appointmentTotalAmount,
+      amount: appointmentOfCurrentPayment.totalPrice,
       status: modality === PAYMENT_MODALITY.IN_APP ? 'paid' : 'pending',
       paidAt: modality === PAYMENT_MODALITY.IN_APP ? new Date() : undefined,
     })

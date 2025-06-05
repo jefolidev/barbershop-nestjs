@@ -33,7 +33,6 @@ describe('Create A Payment', () => {
 
     if (result.isRight()) {
       const payment = result.value.payment
-      console.log('Paga presencialmente', JSON.stringify(payment, null, 2))
 
       expect(payment.isPaid).toBe(false)
       expect(payment.status).toMatch('pending')
@@ -55,7 +54,6 @@ describe('Create A Payment', () => {
 
     if (result.isRight()) {
       const payment = result.value.payment
-      console.log('Paga remotamente', JSON.stringify(payment, null, 2))
 
       expect(payment.isPaid).toBe(true)
       expect(payment.status).toMatch('paid')
