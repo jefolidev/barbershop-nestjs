@@ -10,7 +10,7 @@ let inMemoryBarberRepository: InMemoryBarberRepository
 let sut: RescheduleAnAppointmentUseCase
 
 describe('Reschedule an Appointment', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     inMemoryBarberRepository = new InMemoryBarberRepository()
     sut = new RescheduleAnAppointmentUseCase(

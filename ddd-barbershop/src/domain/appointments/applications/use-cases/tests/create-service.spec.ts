@@ -6,7 +6,7 @@ let inMemoryServiceRepository: InMemoryServiceRepository
 let sut: CreateServiceUseCase
 
 describe('Create Service', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryServiceRepository = new InMemoryServiceRepository()
     sut = new CreateServiceUseCase(inMemoryServiceRepository)
   })

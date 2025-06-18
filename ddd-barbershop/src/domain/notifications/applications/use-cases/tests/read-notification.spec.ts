@@ -7,7 +7,7 @@ let inMemoryNotificationRepository: InMemoryNotificationRepository
 let sut: ReadNotificationUseCase
 
 describe('Read Notification', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryNotificationRepository = new InMemoryNotificationRepository()
     sut = new ReadNotificationUseCase(inMemoryNotificationRepository)
   })

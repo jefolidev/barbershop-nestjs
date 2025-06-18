@@ -9,7 +9,7 @@ let inMemoryPaymentRepository: InMemoryPaymentRepository
 let sut: CreatePaymentUseCase
 
 describe('Create A Payment', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     inMemoryPaymentRepository = new InMemoryPaymentRepository()
     sut = new CreatePaymentUseCase(

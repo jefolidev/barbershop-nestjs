@@ -7,7 +7,7 @@ let inMemoryAppointmentRepository: InMemoryAppointmentRepository
 let sut: FinishAnAppointmentUseCase
 
 describe('Cancel a Appointment', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     sut = new FinishAnAppointmentUseCase(inMemoryAppointmentRepository)
   })

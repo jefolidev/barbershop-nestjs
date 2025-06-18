@@ -5,7 +5,7 @@ let inMemoryBarberRepository: InMemoryBarberRepository
 let sut: CreateBarberUseCase
 
 describe('Create Barber', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryBarberRepository = new InMemoryBarberRepository()
     sut = new CreateBarberUseCase(inMemoryBarberRepository)
   })

@@ -6,7 +6,7 @@ let inMemoryAppointmentRepository: InMemoryAppointmentRepository
 let sut: MarkAppointmentNoShowUseCase
 
 describe('Mark An Appointment No Show', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     sut = new MarkAppointmentNoShowUseCase(inMemoryAppointmentRepository)
   })

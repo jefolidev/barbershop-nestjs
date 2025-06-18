@@ -14,7 +14,7 @@ let inMemoryClientRepository: InMemoryClientRepository
 let sut: CreateAppointmentUseCase
 
 describe('Create Appointment', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     inMemoryBarberRepository = new InMemoryBarberRepository()
     inMemoryClientRepository = new InMemoryClientRepository()

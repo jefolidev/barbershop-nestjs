@@ -11,7 +11,7 @@ let inMemoryClientRepository: InMemoryClientRepository
 let sut: FetchLastAppointmentsUseCase
 
 describe('Fetch Client Last Appointments', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     inMemoryClientRepository = new InMemoryClientRepository()
     sut = new FetchLastAppointmentsUseCase(inMemoryAppointmentRepository)

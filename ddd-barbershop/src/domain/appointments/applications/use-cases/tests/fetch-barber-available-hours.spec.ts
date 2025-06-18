@@ -6,7 +6,7 @@ let inMemoryBarberRepository: InMemoryBarberRepository
 let sut: FetchBarberAvailableHoursUseCase
 
 describe('Fetch Barber Available Hours', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryBarberRepository = new InMemoryBarberRepository()
     sut = new FetchBarberAvailableHoursUseCase(inMemoryBarberRepository)
   })

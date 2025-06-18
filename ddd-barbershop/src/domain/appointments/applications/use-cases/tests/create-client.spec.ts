@@ -5,7 +5,7 @@ let inMemoryClientRepository: InMemoryClientRepository
 let sut: CreateClientUseCase
 
 describe('Create Client', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryClientRepository = new InMemoryClientRepository()
     sut = new CreateClientUseCase(inMemoryClientRepository)
   })

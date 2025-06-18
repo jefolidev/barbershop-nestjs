@@ -11,6 +11,10 @@ export class InMemoryPaymentRepository implements PaymentRepository {
     DomainEvents.dispatchEventsForAggregate(payment.id)
   }
 
+  async fetchPayments(): Promise<Payment[]> {
+    return this.items
+  }
+
   async findById(paymentId: string) {
     const payment = this.items.find(
       (payment) => payment.id.toString() === paymentId
