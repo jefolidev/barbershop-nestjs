@@ -36,7 +36,7 @@ export class OnAppointmentCreated implements EventHandler {
       await this.sendNotification.execute({
         recipientId: barber.id.toString(),
         title: 'Novo agendamento criado.',
-        content: `${client?.fullName} criou um agendamento para ${appointment.scheduleDate.toDateString()}.`,
+        content: `${client.fullName} criou um agendamento para ${appointment.scheduleDate.toDateString()}.`,
       })
     }
   }

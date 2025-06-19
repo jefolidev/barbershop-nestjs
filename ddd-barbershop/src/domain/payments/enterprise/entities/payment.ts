@@ -6,6 +6,7 @@ import {
   type PAYMENT_MODALITY,
   type PaymentStatus,
 } from '@/core/types/payment'
+import { PaymentRefundedEvent } from '@/domain/appointments/enterprise/events/payment-refunded.'
 import { PaymentSuccessEvent } from '@/domain/appointments/enterprise/events/payment-success-event'
 
 export interface PaymentProps {
@@ -46,6 +47,7 @@ export class Payment extends AggregateRoot<PaymentProps> {
 
   set status(status: PaymentStatus) {
     this.props.status = status
+    this.addDomainEvent(new PaymentRefundedEvent(this))
   }
 
   get createdAt() {
@@ -58,7 +60,7 @@ export class Payment extends AggregateRoot<PaymentProps> {
 
   set isPaid(isPaid: boolean) {
     if (this.props.status === 'paid') {
-      this.props.isPaid = true
+      this.props.isPaid = isPaid
       this.props.paidAt = new Date()
     }
   }

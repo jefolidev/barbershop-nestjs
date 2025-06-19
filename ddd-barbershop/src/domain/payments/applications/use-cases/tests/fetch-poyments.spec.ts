@@ -116,7 +116,6 @@ describe('Fetch Payments', () => {
     if (result.isRight()) {
       const payments = result.value.payments
 
-      console.log(payments)
       expect(payments).toHaveLength(2)
       expect(payments.every((p) => p.status === 'paid')).toBe(true)
     }
